@@ -1,0 +1,33 @@
+{
+  "name": "dbrmn-thoughteq",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@types/node": "18.15.10",
+    "@types/react": "18.0.29",
+    "@types/react-dom": "18.0.11",
+    "eslint": "8.36.0",
+    "eslint-config-next": "13.2.4",
+    "lamejs": "github:zhuker/lamejs",
+    "next": "13.2.4",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "react-draggable": "^4.4.5",
+    "recordrtc": "^5.6.2",
+    "typescript": "5.0.2",
+    "usehooks-ts": "^2.9.1"
+  },
+  "devDependencies": {
+    "@builder.io/partytown": "^0.8.0",
+    "@types/recordrtc": "^5.6.11",
+    "autoprefixer": "^10.4.14",
+    "postcss": "^8.4.23",
+    "tailwindcss": "^3.3.2"
+  }
+}

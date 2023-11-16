@@ -1,0 +1,38 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .hide-scrollbars {
+    -ms-overflow-style: none; /* Internet Explorer 10+ */
+    scrollbar-width: none; /* Firefox */
+  }
+  .hide-scrollbars::-webkit-scrollbar {
+    display: none; /* Safari and Chrome */
+  }
+  .config-label {
+    @apply whitespace-nowrap uppercase font-bold text-[0.7rem];
+  }
+
+  .config-input {
+    @apply w-40 h-9 rounded-[6px] border border-gray-warm text-sm px-2 py-3 disabled:text-gray;
+  }
+
+  .config-input-xl {
+    @apply col-span-2;
+  }
+
+  .config-prompt {
+    @apply font-mono h-full shadow min-h-[2.5em] appearance-none rounded w-full p-[2em] text-[0.7em] leading-[1.5em] focus:outline-none disabled:text-gray;
+  }
+}
+
+:root {
+  --color-green: #00b126;
+  --color-yellow: #ffff01;
+  --color-pink: #f8d7e9;
+  --color-pink-muted: #c0a7c6;
+  --color-elephant: #6b4ffd;
+  --color-gray: #9ca3af;
+  --color-gray-warm: ##c7c7c7;
+}
