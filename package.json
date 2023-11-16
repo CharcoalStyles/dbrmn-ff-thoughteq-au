@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "static": "next build && next export"
+    "static": "next build && next export",
+    "icon-generate": "capacitor-assets generate --iconBackgroundColor '#f8d7e9' --splashBackgroundColor '#f8d7e9'"
   },
   "dependencies": {
     "@capacitor/android": "^5.5.1",
