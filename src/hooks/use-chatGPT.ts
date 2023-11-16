@@ -42,7 +42,11 @@ export const useChatGPT = () => {
     let introPrompt = "";
     let previousResponses: PreviousResponses[];
     if (type === AnalysisType.CharacterComment) {
-      introPrompt = config.characterComment.introPrompt.value;
+      const {
+        character,
+        introPrompt: { value },
+      } = config.characterComment;
+      introPrompt = value.replace("{character}", character.value);
       previousResponses = characterCommentResponses.current;
     } else if (type === AnalysisType.Theme) {
       introPrompt = config.theme.introPrompt.value;
