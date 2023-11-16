@@ -1,19 +1,17 @@
-import { useConfig } from "@/configContext/ConfigState";
 import { PromptType } from "@/types";
 
 export async function sendMessage(
   prompt: PromptType[],
   model: string,
   temperature: number,
-  summary = false
+  summary = false,
+  openAiKey: string
 ) {
-  const { config } = useConfig();
-
   const requestOptions = {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${config.main.openAiKey.value}`,
+      Authorization: `Bearer ${openAiKey}`,
     },
     body: JSON.stringify({
       messages: prompt,
