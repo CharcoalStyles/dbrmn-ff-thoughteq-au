@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Elephant In The Room</string>
+    <string name="title_activity_main">Elephant In The Room</string>
+    <string name="package_name">co.doberman.elephant</string>
+    <string name="custom_url_scheme">co.doberman.elephant</string>
+</resources>
