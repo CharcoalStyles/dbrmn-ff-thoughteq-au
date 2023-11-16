@@ -1,6 +1,4 @@
-import CloseIcon from "../../public/elephant/close-icon.svg";
-import ArrowIcon from "../../public/elephant/arrow-icon.svg";
-import Face from "../../public/elephant/face.svg";
+import ArrowIcon from "@/components/elephant/arrow-icon";
 
 import { useEffect, useRef, useState } from "react";
 import { ElephantMessage } from "@/types";
@@ -33,7 +31,7 @@ const ElephantMessages = ({ messages }: { messages: ElephantMessage[] }) => {
             aria-label="prev"
             disabled={currentSlide === 0}
           >
-            <img className="w-[2vw]  rotate-180" src={ArrowIcon.src} />
+            <ArrowIcon className="w-[2vw]  rotate-180" />
           </button>
           <button
             ref={nextSliderRef}
@@ -45,7 +43,7 @@ const ElephantMessages = ({ messages }: { messages: ElephantMessage[] }) => {
             aria-label="next"
             disabled={currentSlide === messages.length - 1}
           >
-            <img className="w-[2vw]" src={ArrowIcon.src} />
+            <ArrowIcon className="w-[2vw]" />
           </button>
         </div>
       )}

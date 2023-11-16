@@ -1,13 +1,12 @@
 import React, { useRef } from "react";
-import Image from "next/image";
 import { useState, useEffect } from "react";
 
 // Import SVGs
-import OpenEyes from "../../public/elephant/open-eyes.svg";
-import ClosedEyes from "../../public/elephant/closed-eyes.svg";
+import OpenEyes from "@/components/elephant/open-eyes";
+import ClosedEyes from "@/components/elephant/closed-eyes";
 
-import Honk from "../../public/elephant/honk.svg";
-import Silent from "../../public/elephant/silent.svg";
+import Honk from "@/components/elephant/honk";
+import Silent from "@/components/elephant/silent";
 import ElephantMessages from "./ElephantMessages";
 import ElephantDialog from "./ElephantDialog";
 import { ElephantMessage } from "@/types";
@@ -19,8 +18,8 @@ type Moods = {
 };
 
 interface BodyParts {
-  eyes: string;
-  body: string;
+  eyes: (props: React.SVGProps<SVGSVGElement>) => JSX.Element;
+  body: (props: React.SVGProps<SVGSVGElement>) => JSX.Element;
 }
 
 const moods: Moods = {
@@ -40,9 +39,11 @@ const Elephant = ({
   onClick: () => void;
   disabled: boolean;
 }) => {
-  const [eyes, setEyes] = useState(moods[mood].eyes);
-  const [body, setBody] = useState(moods[mood].body);
+  const [eyes, setEyes] = useState(moods[mood].eyes({}));
+  const [body, setBody] = useState(moods[mood].body({}));
   const [messagesOpen, setMessagesOpen] = useState(false);
+
+  console.log({eyes, body})
 
   const controllerRef = useRef<HTMLDivElement>(null);
   const blinkInterval = useRef<ReturnType<typeof setInterval>>();
@@ -52,10 +53,10 @@ const Elephant = ({
 
   function startBlink() {
     blinkInterval.current = setInterval(() => {
-      setEyes(ClosedEyes);
+      setEyes(ClosedEyes({}));
 
       blinkTimeout.current = setTimeout(() => {
-        setEyes(OpenEyes);
+        setEyes(OpenEyes({}));
       }, 100);
     }, 3000);
   }
@@ -68,8 +69,8 @@ const Elephant = ({
   function honk() {
     const prevEyes = eyes;
     const prevBody = body;
-    setEyes(moods["honking"].eyes);
-    setBody(moods["honking"].body);
+    setEyes(moods["honking"].eyes({}));
+    setBody(moods["honking"].body({}));
 
     if (!audio) {
       audio = new Audio("/elephant/honk1.mp3");
@@ -101,8 +102,8 @@ const Elephant = ({
   }, [messages]);
 
   useEffect(() => {
-    setEyes(moods[mood].eyes);
-    setBody(moods[mood].body);
+    setEyes(moods[mood].eyes({}));
+    setBody(moods[mood].body({}));
 
     switch (mood) {
       case "waiting":
@@ -128,10 +129,10 @@ const Elephant = ({
       >
         <button onClick={onClick} disabled={disabled}>
           <div className="">
-            <Image src={body} alt="" priority />
+            {body}
           </div>
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-[100%] w-[22%]">
-            <Image src={eyes} alt="" priority />
+            {eyes}
           </div>
         </button>
 

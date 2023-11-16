@@ -7,7 +7,14 @@ import AboutButton from "./AboutButton";
 const SupportedDeviceChecker = ({ children }: { children: ReactNode }) => {
   // const [isSupported, setIsSupported] = useState(false);
   
-  const { browser, screenSize } = useDeviceDetection();
+  const { browser, isMobile, isTablet, screenSize, ua } = useDeviceDetection();
+
+  console.log({
+    browser,
+    isTablet,
+    screenSize,
+    ua,
+  })
 
   const platform = Capacitor.getPlatform();
   const isWeb = platform === "web";

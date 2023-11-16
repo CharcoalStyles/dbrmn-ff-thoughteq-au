@@ -1,0 +1,56 @@
+import * as React from "react";
+const SVGComponent = (props: React.SVGProps<SVGSVGElement>) => (
+  <svg
+    width="100%"
+    height="100%"
+    viewBox="0 0 247 216"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    {...props}
+  >
+    <path
+      d="M77.0993 64L2 325M245 325L175.801 64"
+      stroke="black"
+      strokeWidth={3}
+    />
+    <path
+      d="M21 72C21 72 23.7736 80.9242 23.7736 87.5M21 103C21 103 23.7736 94.0758 23.7736 87.5M23.7736 87.5C42.3677 87.5 70 87.5 70 87.5"
+      stroke="black"
+      strokeWidth={3}
+    />
+    <path
+      d="M233 72C233 72 230.17 81.4469 230.17 87.5M233 103C233 103 230.17 93.5531 230.17 87.5M230.17 87.5C210.644 87.5 183 87.5 183 87.5"
+      stroke="black"
+      strokeWidth={3}
+    />
+    <path
+      d="M153 38C153 27.5066 161.507 19 172 19V19C182.493 19 191 27.5066 191 38V38C191 48.4934 182.493 57 172 57V57C161.507 57 153 48.4934 153 38V38Z"
+      fill="white"
+      stroke="black"
+      strokeWidth={3}
+    />
+    <path
+      d="M72.507 22L66 12.4348M82.2676 20.087V0M92.493 22L99 12.4348"
+      stroke="black"
+      strokeWidth={3}
+    />
+    <path
+      d="M162.31 22L156 12.4348M171.775 20.087V0M181.69 22L188 12.4348"
+      stroke="black"
+      strokeWidth={3}
+    />
+    <rect x={168} y={23} width={9} height={8} rx={4} fill="black" />
+    <rect
+      x={62}
+      y={19}
+      width={39}
+      height={38}
+      rx={19}
+      fill="white"
+      stroke="black"
+      strokeWidth={3}
+    />
+    <rect x={77} y={23} width={8} height={8} rx={4} fill="black" />
+  </svg>
+);
+export default SVGComponent;
