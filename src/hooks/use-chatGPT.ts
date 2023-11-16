@@ -77,7 +77,7 @@ export const useChatGPT = () => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${process.env.NEXT_PUBLIC_OPEN_API_KEY}`,
+        Authorization: `Bearer ${config.main.openAiKey.value}`,
       },
       body: JSON.stringify({
         messages: messages,

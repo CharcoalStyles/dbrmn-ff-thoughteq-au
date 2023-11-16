@@ -1,12 +1,19 @@
+import { useConfig } from "@/configContext/ConfigState";
 import { PromptType } from "@/types";
 
+export async function sendMessage(
+  prompt: PromptType[],
+  model: string,
+  temperature: number,
+  summary = false
+) {
+  const { config } = useConfig();
 
-export async function sendMessage(prompt: PromptType[], model: string, temperature: number, summary = false) {
   const requestOptions = {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${process.env.NEXT_PUBLIC_OPEN_API_KEY}`,
+      Authorization: `Bearer ${config.main.openAiKey.value}`,
     },
     body: JSON.stringify({
       messages: prompt,

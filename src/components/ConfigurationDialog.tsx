@@ -81,8 +81,9 @@ const ConfigurationDialog: FC<Props> = ({ disabled }) => {
             </div>
 
             <div className="grid w-full grid-cols-4 gap-x-3 gap-y-3 pr-[200px]">
-              {Object.values(config.main).map((item) => (
-                <div
+              {Object.values(config.main).map((item) => { 
+                console.log({item})
+                return <div
                   key={item.title}
                   className={`flex flex-col gap-2 ${
                     item.inputType === "text-xl" ? "config-input-xl" : ""
@@ -124,7 +125,7 @@ const ConfigurationDialog: FC<Props> = ({ disabled }) => {
                     />
                   )}
                 </div>
-              ))}
+})}
             </div>
 
             <div className="grid grid-cols-[1fr_200px] gap-y-16">

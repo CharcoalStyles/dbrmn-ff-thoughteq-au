@@ -68,7 +68,7 @@ export default function Home() {
 
   const { transcript, lastTranscriptChunk, startWhisper, stopWhisper } =
     useWhisper({
-      apiKey: process.env.NEXT_PUBLIC_OPEN_API_KEY!,
+      apiKey: config.main.openAiKey.value,
       timeSlice: 1000 * parseInt(config.main.timeSlice.value),
       language: config.main.language.value,
       onStream: analyseStream,

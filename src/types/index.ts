@@ -49,7 +49,8 @@ export type ConfigValueKey =
   | "character"
   | "showElephantImage"
   | "showPostits"
-  | "boardTitle";
+  | "boardTitle"
+  | "openAiKey";
 
 export interface Config {
   main: {
@@ -60,6 +61,7 @@ export interface Config {
     audioInputSource: ConfigValue;
     maxItems: ConfigValue;
     boardTitle: ConfigValue;
+    openAiKey: ConfigValue;
   };
   characterComment: {
     introPrompt: ConfigValue;

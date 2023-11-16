@@ -56,6 +56,15 @@ export const defaultConfigValues: Config = {
       valueType: "string",
       inputType: "text-xl",
     },
+    openAiKey: {
+      title: "OpenAI API key",
+      key: "openAiKey",
+      value: process.env.NEXT_PUBLIC_OPEN_API_KEY
+        ? process.env.NEXT_PUBLIC_OPEN_API_KEY
+        : "",
+      valueType: "string",
+      inputType: "text",
+    },
   },
   characterComment: {
     introPrompt: {
