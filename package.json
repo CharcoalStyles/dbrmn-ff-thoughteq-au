@@ -6,9 +6,13 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "static": "next build && next export"
   },
   "dependencies": {
+    "@capacitor/android": "^5.5.1",
+    "@capacitor/core": "^5.5.1",
+    "@capacitor/ios": "^5.5.1",
     "@types/node": "18.15.10",
     "@types/react": "18.0.29",
     "@types/react-dom": "18.0.11",
@@ -25,6 +29,8 @@
   },
   "devDependencies": {
     "@builder.io/partytown": "^0.8.0",
+    "@capacitor/assets": "^3.0.1",
+    "@capacitor/cli": "^5.5.1",
     "@types/recordrtc": "^5.6.11",
     "autoprefixer": "^10.4.14",
     "postcss": "^8.4.23",

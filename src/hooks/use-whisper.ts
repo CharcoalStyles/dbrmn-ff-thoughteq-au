@@ -1,4 +1,6 @@
 import { useConfig } from "@/configContext/ConfigState";
+import { encodeAudio } from "@/utils/encodeAudio";
+import { Capacitor } from "@capacitor/core";
 import type { Mp3Encoder } from "lamejs";
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { Options, RecordRTCPromisesHandler } from "recordrtc";
@@ -22,6 +24,7 @@ export const useWhisper = ({
   const streamRef = useRef<MediaStream>();
   const encoder = useRef<Mp3Encoder>();
   const transcriptRef = useRef<string>("");
+  const isIos = Capacitor.getPlatform() === "ios";
 
   const [lastTranscriptChunk, setLastTranscriptChunk] = useState({ text: "" });
   const [transcript, setTranscript] = useState({ text: "" });
@@ -71,8 +74,8 @@ export const useWhisper = ({
     };
 
     const response = await fetch(requestUrl, requestOptions);
-
     const responseData = await response.json();
+
     console.timeEnd("Whisper transcription request");
     console.log("← RECEIVED TRANSCRIPTION", { responseData });
     const transcription = responseData.text;
@@ -138,9 +141,28 @@ export const useWhisper = ({
             function onDataAvailable(data: Blob) {
               console.time("Generated a transcript chunk");
               console.time("Whole flow");
-              data.arrayBuffer().then((buffer) => {
-                workerRef.current?.postMessage(buffer);
-              });
+              if (isIos) {
+                console.log("→ TRANSCRIBING AUDIO WITH WHISPER iOS workaround");
+                data.arrayBuffer().then((buffer) => {
+                  const enc = encodeAudio(buffer);
+                  transcribeWithWhisper(
+                    apiKey,
+                    enc,
+                    language,
+                    transcriptRef.current
+                  ).then((transcription) => {
+                    transcriptRef.current += " " + transcription;
+                    setTranscript({ text: transcriptRef.current });
+                    setLastTranscriptChunk({ text: transcription });
+                    console.timeEnd("Generated a transcript chunk");
+                  });
+                });
+              } else {
+                console.log("→ TRANSCRIBING AUDIO WITH WHISPER Worker Path");
+                data.arrayBuffer().then((buffer) => {
+                  workerRef.current?.postMessage(buffer);
+                });
+              }
             }
           };
 
