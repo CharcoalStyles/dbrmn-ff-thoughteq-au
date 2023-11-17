@@ -89,6 +89,8 @@ export const useChatGPT = () => {
       }),
     };
 
+    console.log({ requestOptions });
+
     console.time(type + " Prompt request");
     const response = await fetch(
       process.env.NEXT_PUBLIC_OPEN_API_URL!,
