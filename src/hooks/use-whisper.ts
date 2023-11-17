@@ -65,11 +65,10 @@ export const useWhisper = ({
     console.time("Whisper transcription request");
 
     const requestUrl = "https://api.openai.com/v1/audio/transcriptions";
-    console.log("API ky for whisper", config.main.openAiKey.value);
     const requestOptions = {
       method: "POST",
       headers: {
-        Authorization: "Bearer " + config.main.openAiKey.value,
+        Authorization: "Bearer " + apiKey,
       },
       body: formData,
     };
@@ -87,7 +86,7 @@ export const useWhisper = ({
     workerRef.current = new Worker(new URL("../worker.ts", import.meta.url));
     workerRef.current.onmessage = (event: MessageEvent<File>) => {
       transcribeWithWhisper(
-        apiKey,
+        config.main.openAiKey.value,
         event.data,
         language,
         transcriptRef.current
