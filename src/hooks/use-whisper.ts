@@ -84,7 +84,7 @@ export const useWhisper = ({
   };
 
   useEffect(() => {
-    console.log(apiKey, config.main.openAiKey.value);
+    console.warn("useEffect", apiKey, config.main.openAiKey.value);
     workerRef.current = new Worker(new URL("../worker.ts", import.meta.url));
     workerRef.current.onmessage = (event: MessageEvent<File>) => {
       transcribeWithWhisper(
