@@ -65,11 +65,11 @@ export const useWhisper = ({
     console.time("Whisper transcription request");
 
     const requestUrl = "https://api.openai.com/v1/audio/transcriptions";
-    console.log("API ky for whisper", config.main.openAiKey);
+    console.log("API ky for whisper", config.main.openAiKey.value);
     const requestOptions = {
       method: "POST",
       headers: {
-        Authorization: "Bearer " + config.main.openAiKey,
+        Authorization: "Bearer " + config.main.openAiKey.value,
       },
       body: formData,
     };
