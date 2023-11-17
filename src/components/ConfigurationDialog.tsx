@@ -82,7 +82,6 @@ const ConfigurationDialog: FC<Props> = ({ disabled }) => {
 
             <div className="grid w-full grid-cols-4 gap-x-3 gap-y-3 pr-[200px]">
               {Object.values(config.main).map((item) => { 
-                console.log({item})
                 return <div
                   key={item.title}
                   className={`flex flex-col gap-2 ${

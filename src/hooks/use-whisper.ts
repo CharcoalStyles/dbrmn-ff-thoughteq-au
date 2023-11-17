@@ -26,6 +26,12 @@ export const useWhisper = ({
   const transcriptRef = useRef<string>("");
   const isIos = Capacitor.getPlatform() === "ios";
 
+  console.log(
+    apiKey,
+    config.main.openAiKey,
+    process.env.NEXT_PUBLIC_OPEN_API_KEY
+  );
+
   const [lastTranscriptChunk, setLastTranscriptChunk] = useState({ text: "" });
   const [transcript, setTranscript] = useState({ text: "" });
 
