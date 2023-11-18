@@ -66,12 +66,14 @@ export default function Home() {
     callerId: "index-page",
   });
 
+  const org = config.main.openAiOrganisation.value;
   const { transcript, lastTranscriptChunk, startWhisper, stopWhisper } =
     useWhisper({
       apiKey: config.main.openAiKey.value,
       timeSlice: 1000 * parseInt(config.main.timeSlice.value),
       language: config.main.language.value,
       onStream: analyseStream,
+      openAiOrg: org.trim() === '' ? undefined : org
     });
 
   const {

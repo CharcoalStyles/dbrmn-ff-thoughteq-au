@@ -78,6 +78,12 @@ export const useChatGPT = () => {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${config.main.openAiKey.value}`,
+        ...(config.main.openAiOrganisation.value.trim() === ""
+          ? {}
+          : {
+              "OpenAI-Organization":
+                config.main.openAiOrganisation.value.trim(),
+            }),
       },
       body: JSON.stringify({
         messages: messages,

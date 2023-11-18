@@ -65,6 +65,15 @@ export const defaultConfigValues: Config = {
       valueType: "string",
       inputType: "text",
     },
+    openAiOrganisation: {
+      title: "OpenAI API organisation (optional)",
+      key: "openAiOrganisation",
+      value: process.env.NEXT_PUBLIC_OPEN_API_ORG
+        ? process.env.NEXT_PUBLIC_OPEN_API_ORG
+        : "",
+      valueType: "string",
+      inputType: "text",
+    }
   },
   characterComment: {
     introPrompt: {

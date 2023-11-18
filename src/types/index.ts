@@ -50,7 +50,8 @@ export type ConfigValueKey =
   | "showElephantImage"
   | "showPostits"
   | "boardTitle"
-  | "openAiKey";
+  | "openAiKey"
+  | "openAiOrganisation";
 
 export interface Config {
   main: {
@@ -62,6 +63,7 @@ export interface Config {
     maxItems: ConfigValue;
     boardTitle: ConfigValue;
     openAiKey: ConfigValue;
+    openAiOrganisation: ConfigValue;
   };
   characterComment: {
     introPrompt: ConfigValue;

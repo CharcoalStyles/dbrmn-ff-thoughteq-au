@@ -7,6 +7,7 @@ import type { Options, RecordRTCPromisesHandler } from "recordrtc";
 
 interface Props {
   apiKey: string;
+  openAiOrg?: string;
   timeSlice: number;
   language: string;
   onStream: (stream: MediaStream) => void;
@@ -17,6 +18,7 @@ export const useWhisper = ({
   timeSlice,
   language,
   onStream,
+  openAiOrg,
 }: Props) => {
   const { config } = useConfig();
   const recorder = useRef<RecordRTCPromisesHandler>();
@@ -47,7 +49,7 @@ export const useWhisper = ({
   }, []);
 
   const transcribeWithWhisper = async (
-    apiKey: string,
+    auth: { apiKey: string; organisation?: string },
     blob: Blob,
     language: string,
     initialPrompt?: string
@@ -64,12 +66,14 @@ export const useWhisper = ({
     });
     console.time("Whisper transcription request");
 
-    console.log({ apiKey });
     const requestUrl = "https://api.openai.com/v1/audio/transcriptions";
     const requestOptions = {
       method: "POST",
       headers: {
-        Authorization: "Bearer " + apiKey,
+        Authorization: "Bearer " + auth.apiKey,
+        ...(auth.organisation
+          ? {}
+          : { "OpenAI-Organization": auth.organisation }),
       },
       body: formData,
     };
@@ -91,7 +95,7 @@ export const useWhisper = ({
     workerRef.current = new Worker(new URL("../worker.ts", import.meta.url));
     workerRef.current.onmessage = (event: MessageEvent<File>) => {
       transcribeWithWhisper(
-        apiKey,
+        { apiKey, organisation: openAiOrg },
         event.data,
         language,
         transcriptRef.current
@@ -105,7 +109,7 @@ export const useWhisper = ({
         workerRef.current?.terminate();
       };
     };
-  }, [language]);
+  }, [language, apiKey, openAiOrg]);
 
   const startRecording = useCallback(() => {
     Promise.all([import("recordrtc"), import("lamejs")])
@@ -151,7 +155,7 @@ export const useWhisper = ({
                 data.arrayBuffer().then((buffer) => {
                   const enc = encodeAudio(buffer);
                   transcribeWithWhisper(
-                    apiKey,
+                    { apiKey, organisation: openAiOrg },
                     enc,
                     language,
                     transcriptRef.current

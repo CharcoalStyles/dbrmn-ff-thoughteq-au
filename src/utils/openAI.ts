@@ -5,13 +5,17 @@ export async function sendMessage(
   model: string,
   temperature: number,
   summary = false,
-  openAiKey: string
+  openAiKey: string,
+  openAiOrganisation: string
 ) {
   const requestOptions = {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${openAiKey}`,
+      ...(openAiKey.trim() === ""
+        ? {}
+        : { "OpenAI-Organization": openAiOrganisation }),
     },
     body: JSON.stringify({
       messages: prompt,
