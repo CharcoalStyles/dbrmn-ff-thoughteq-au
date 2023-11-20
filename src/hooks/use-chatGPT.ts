@@ -27,6 +27,7 @@ export const useChatGPT = () => {
 
   const sendUserMessage = async (type: AnalysisType, transcript: string) => {
     const { model, temperature } = config[type];
+    let selectedCharacter = "";
 
     console.log("→ SENDING PROMPT:", {
       type,
@@ -46,7 +47,12 @@ export const useChatGPT = () => {
         character,
         introPrompt: { value },
       } = config.characterComment;
-      introPrompt = value.replace("{character}", character.value);
+
+      const charcacterList = character.value.split(",");
+      selectedCharacter =
+        charcacterList[Math.floor(Math.random() * charcacterList.length)];
+
+      introPrompt = value.replace("{character}", selectedCharacter);
       previousResponses = characterCommentResponses.current;
     } else if (type === AnalysisType.Theme) {
       introPrompt = config.theme.introPrompt.value;

@@ -204,7 +204,7 @@ export default function Home() {
         text: res[0].text,
         emojis: res[0].emojis,
         postitType: "CharacterComment",
-        contentType: config.characterComment.character.value as CharacterType,
+        contentType: res[0].type,
       });
     } catch (e) {
       console.error(e);

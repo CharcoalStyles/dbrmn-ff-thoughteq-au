@@ -4,6 +4,7 @@ export type ConfigInputType =
   | "textarea"
   | "number"
   | "select"
+  | "multiselect"
   | "checkbox";
 
 export interface ConfigValue {
@@ -165,6 +166,7 @@ export type ThemeType = "Quote" | "Comment" | "Thought";
 export type CharacterCommentResponse = {
   text: string;
   emojis: string;
+  type: CharacterType;
 };
 
 export type ThemeResponse = {

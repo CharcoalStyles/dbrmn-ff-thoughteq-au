@@ -174,16 +174,23 @@ const ConfigurationDialog: FC<Props> = ({ disabled }) => {
                     {config.characterComment.character.title}
                   </label>
                   <select
+                    multiple
                     disabled={isDisabled.character}
-                    className="p-0 px-2 config-input"
-                    value={config.characterComment.character.value}
-                    onChange={(ev) =>
+                    className="p-0 px-2 h-32 config-input"
+                    value={config.characterComment.character.value.split(",")}
+                    onChange={(ev) => {
+                      const l = ev.currentTarget.selectedOptions.length;
+                      const v = [];
+                      for (let i = 0; i < l; i++) {
+                        v.push(ev.currentTarget.selectedOptions[i].value);
+                      }
+                      console.log(v);
                       handleChange(
                         "characterComment",
                         config.characterComment.character.key,
-                        ev.target.value
-                      )
-                    }
+                        v.join(",")
+                      );
+                    }}
                   >
                     {config.characterComment.character.options?.map(
                       (option) => (

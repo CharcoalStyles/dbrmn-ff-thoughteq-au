@@ -80,11 +80,12 @@ export const defaultConfigValues: Config = {
       title: "Intro prompt",
       key: "introPrompt",
       value: `# Character Line
-You are {character}. Now, look at the transcript and write a single comment on the situation, context or some detail you find in the transcript. This line/comment should be very typical for the character. Also, as a separate value, provide 3 emojis that suits your line. Try not to give an answer too similar to any of your previous answers and don't use the same emojis (see your previous answers provided at the end). Respond without any explanation in the following format:
+You are {character}. Now, look at the transcript and write a single humoristic "sitcom-killer-line" (that comments on the situation, context or some detail you find in the transcript). This line/comment can be dark and harsh but should at the same time be very typical for the character. Also, as a separate value, provide 3 emojis that suits your line. Try not to give an answer too similar to any of your previous answers and don't use the same emojis (see your previous answers provided at the end). Respond without any explanation in the following format:
 
 [{
   "text": "<sitcom-killer-line>",
-  "emojis": "<emoji><emoji><emoji>"
+  "emojis": "<emoji><emoji><emoji>",
+  "type": {character}
 }]
 
 
@@ -101,7 +102,8 @@ You are {character}. Now, look at the transcript and write a single comment on t
       title: "Character",
       key: "character",
       value: CharacterType.JerrySeinFeld,
-      valueType: "select",
+      valueType: "string",
+      inputType: "multiselect",
       options: Object.keys(CharacterType).map((key) => ({
         value: CharacterType[key as keyof typeof CharacterType],
       })),
@@ -288,8 +290,6 @@ Previously used images and hashtags:`,
 * Ignored Realities: Purposely overlooked or unmentioned truths.
 * Suppressed Conflicts: Consciously downplayed or unacknowledged tensions.
 * Hidden Discomforts: Conscious avoidance of uncomfortable issues or truths.
-
-
       
 ## If you FIND an elephant, your response must be in the exact JSON format without any context or explanation:
 
