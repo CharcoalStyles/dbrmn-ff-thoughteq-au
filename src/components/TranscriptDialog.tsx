@@ -25,13 +25,13 @@ const TranscriptDialog: FC<Props> = ({ fullTranscript }) => {
               accumulativeEnd += lastEnd;
             }
           }
+          lastEnd = end + accumulativeEnd;
           const currentStart = start + accumulativeEnd;
           //convert currentStart to minutes and seconds
           const minutes = Math.floor(currentStart / 60);
           const seconds = Math.floor(currentStart % 60);
           const time = `${minutes}:${`${seconds}`.padStart(2, "0")}`;
 
-          lastEnd = end;
           return {
             time: time,
             text,
@@ -74,7 +74,7 @@ const TranscriptDialog: FC<Props> = ({ fullTranscript }) => {
             <div className="p-4 overflow-y-auto flex-grow">
               {augmentedTranscript.map(({ text, time }) => {
                 return (
-                  <p>
+                  <p key={time}>
                     <span className="pr-2 font-bold">{time}</span>
                     {text}
                   </p>

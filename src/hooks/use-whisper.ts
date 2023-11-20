@@ -93,16 +93,18 @@ export const useWhisper = ({
     console.time("Whisper transcription request");
 
     const requestUrl = "https://api.openai.com/v1/audio/transcriptions";
+    console.warn("auth.organisation", auth.organisation);
     const requestOptions = {
       method: "POST",
       headers: {
         Authorization: "Bearer " + auth.apiKey,
-        ...(auth.organisation
+        ...(auth.organisation === undefined
           ? {}
           : { "OpenAI-Organization": auth.organisation }),
       },
       body: formData,
     };
+    console.warn("requestOptions(headers", requestOptions.headers);
 
     const response = await fetch(requestUrl, requestOptions);
     const responseData: WhisperResponse = await response.json();
