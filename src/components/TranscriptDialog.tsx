@@ -16,28 +16,18 @@ const TranscriptDialog: FC<Props> = ({ fullTranscript }) => {
 
   useEffect(() => {
     if (fullTranscript.length > 0) {
-      let lastEnd = 0;
-      let accumulativeEnd = 0;
-      setAugmentedTranscript(
-        fullTranscript.map(({ text, start, end }, i) => {
-          if (start === 0) {
-            if (i > 0) {
-              accumulativeEnd += lastEnd;
-            }
-          }
-          lastEnd = end + accumulativeEnd;
-          const currentStart = start + accumulativeEnd;
-          //convert currentStart to minutes and seconds
-          const minutes = Math.floor(currentStart / 60);
-          const seconds = Math.floor(currentStart % 60);
-          const time = `${minutes}:${`${seconds}`.padStart(2, "0")}`;
-
-          return {
-            time: time,
-            text,
-          };
-        })
-      );
+      let accumulatedTime = 0;
+      const augmentedTranscript = fullTranscript.map(({ end, start, text }) => {
+        const minutes = Math.floor(accumulatedTime / 60);
+        const seconds = Math.floor(accumulatedTime % 60);
+        const time = `${minutes}:${`${seconds}`.padStart(2, "0")}`;
+        accumulatedTime += end - start;
+        return {
+          text,
+          time,
+        };
+      });
+      setAugmentedTranscript(augmentedTranscript);
     }
   }, [fullTranscript]);
 
