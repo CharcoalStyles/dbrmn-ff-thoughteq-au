@@ -13,6 +13,21 @@ interface Props {
   onStream: (stream: MediaStream) => void;
 }
 
+export type WhisperResponse = {
+  task: string;
+  language: "english";
+  duration: number;
+  text: string;
+  segments: Array<WhisperSegment>;
+};
+export type WhisperSegment = {
+  id: number;
+  seek: number;
+  start: number;
+  end: number;
+  text: string;
+};
+
 export const useWhisper = ({
   apiKey,
   timeSlice,
@@ -30,6 +45,17 @@ export const useWhisper = ({
 
   const [lastTranscriptChunk, setLastTranscriptChunk] = useState({ text: "" });
   const [transcript, setTranscript] = useState({ text: "" });
+  const [fullTranscript, setFullTranscript] = useState<Array<WhisperSegment>>(
+    []
+  );
+
+  const saveTranscript = ({ text, segments }: WhisperResponse) => {
+    transcriptRef.current += " " + text;
+    setTranscript({ text: transcriptRef.current });
+    setLastTranscriptChunk({ text });
+    setFullTranscript((prev) => [...prev, ...segments]);
+    console.timeEnd("Generated a transcript chunk");
+  };
 
   const stopRecording = useCallback(() => {
     if (recorder.current) {
@@ -79,12 +105,11 @@ export const useWhisper = ({
     };
 
     const response = await fetch(requestUrl, requestOptions);
-    const responseData = await response.json();
+    const responseData: WhisperResponse = await response.json();
 
     console.timeEnd("Whisper transcription request");
     console.log("← RECEIVED TRANSCRIPTION", { responseData });
-    const transcription = responseData.text;
-    return transcription;
+    return responseData;
   };
 
   useEffect(() => {
@@ -99,10 +124,8 @@ export const useWhisper = ({
         event.data,
         language,
         transcriptRef.current
-      ).then((transcription) => {
-        transcriptRef.current += " " + transcription;
-        setTranscript({ text: transcriptRef.current });
-        setLastTranscriptChunk({ text: transcription });
+      ).then((transcript) => {
+        saveTranscript(transcript);
         console.timeEnd("Generated a transcript chunk");
       });
       return () => {
@@ -159,10 +182,8 @@ export const useWhisper = ({
                     enc,
                     language,
                     transcriptRef.current
-                  ).then((transcription) => {
-                    transcriptRef.current += " " + transcription;
-                    setTranscript({ text: transcriptRef.current });
-                    setLastTranscriptChunk({ text: transcription });
+                  ).then((transcript) => {
+                    saveTranscript(transcript);
                     console.timeEnd("Generated a transcript chunk");
                   });
                 });
@@ -202,5 +223,6 @@ export const useWhisper = ({
     stopWhisper: stopRecording,
     lastTranscriptChunk,
     transcript,
+    fullTranscript,
   };
 };

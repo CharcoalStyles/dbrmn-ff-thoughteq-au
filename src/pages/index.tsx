@@ -31,6 +31,7 @@ import { formatMultipleConfigValue } from "@/configContext/configUtils";
 import { TextWithLineBreaks } from "@/components/TextWithLineBreaks";
 import { fitText } from "@/utils/fitText";
 import { useAudioAnalyser } from "@/hooks/use-audio-analyser";
+import TranscriptDialog from "@/components/TranscriptDialog";
 
 export default function Home() {
   const [elephantMessages, setElephantMessages] = useState<ElephantMessage[]>(
@@ -67,14 +68,19 @@ export default function Home() {
   });
 
   const org = config.main.openAiOrganisation.value;
-  const { transcript, lastTranscriptChunk, startWhisper, stopWhisper } =
-    useWhisper({
-      apiKey: config.main.openAiKey.value,
-      timeSlice: 1000 * parseInt(config.main.timeSlice.value),
-      language: config.main.language.value,
-      onStream: analyseStream,
-      openAiOrg: org.trim() === '' ? undefined : org
-    });
+  const {
+    transcript,
+    lastTranscriptChunk,
+    startWhisper,
+    stopWhisper,
+    fullTranscript,
+  } = useWhisper({
+    apiKey: config.main.openAiKey.value,
+    timeSlice: 1000 * parseInt(config.main.timeSlice.value),
+    language: config.main.language.value,
+    onStream: analyseStream,
+    openAiOrg: org.trim() === "" ? undefined : org,
+  });
 
   const {
     isRecording,
@@ -425,6 +431,7 @@ export default function Home() {
         )}
 
         <ConfigurationDialog />
+        <TranscriptDialog fullTranscript={fullTranscript} />
 
         <ReactionsBoard
           isDragging={isDragging}
@@ -462,7 +469,7 @@ export default function Home() {
 
         <AboutButton />
 
-        <div className="absolute bottom-0 right-0 flex items-end gap-4">
+        <div className="absolute bottom-8 right-0 flex items-end gap-4">
           <div className="">
             <canvas ref={canvasRef} width="300" height="40"></canvas>
           </div>

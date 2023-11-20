@@ -50,7 +50,7 @@ const ConfigurationDialog: FC<Props> = ({ disabled }) => {
     <>
       <button
         onClick={openDialog}
-        className="absolute top-0 right-0 z-20 w-10 p-2"
+        className="absolute top-8 right-0 z-20 w-10 p-2"
       >
         <Image alt="elephant" src={ConfigIcon} />
       </button>
@@ -81,50 +81,52 @@ const ConfigurationDialog: FC<Props> = ({ disabled }) => {
             </div>
 
             <div className="grid w-full grid-cols-4 gap-x-3 gap-y-3 pr-[200px]">
-              {Object.values(config.main).map((item) => { 
-                return <div
-                  key={item.title}
-                  className={`flex flex-col gap-2 ${
-                    item.inputType === "text-xl" ? "config-input-xl" : ""
-                  }`}
-                >
-                  <label className="config-label">{item.title}</label>
-                  {item.inputType === "select" ? (
-                    <select
-                      className="w-full px-1 py-0 config-input"
-                      disabled={isDisabled.main}
-                      onChange={(ev) =>
-                        handleChange("main", item.key, ev.target.value)
-                      }
-                      value={config.main.audioInputSource.value}
-                    >
-                      {item.options?.map((option) => (
-                        <option key={option.value} value={option.value}>
-                          {option.label ?? option.value}
-                        </option>
-                      ))}
-                    </select>
-                  ) : item.inputType === "textarea" ? (
-                    <textarea
-                      disabled={isDisabled.main}
-                      value={item.value}
-                      onChange={(ev) =>
-                        handleChange("main", item.key, ev.target.value)
-                      }
-                    />
-                  ) : (
-                    <input
-                      disabled={isDisabled.main}
-                      type={item.valueType}
-                      className="w-full config-input"
-                      value={item.value}
-                      onChange={(ev) =>
-                        handleChange("main", item.key, ev.target.value)
-                      }
-                    />
-                  )}
-                </div>
-})}
+              {Object.values(config.main).map((item) => {
+                return (
+                  <div
+                    key={item.title}
+                    className={`flex flex-col gap-2 ${
+                      item.inputType === "text-xl" ? "config-input-xl" : ""
+                    }`}
+                  >
+                    <label className="config-label">{item.title}</label>
+                    {item.inputType === "select" ? (
+                      <select
+                        className="w-full px-1 py-0 config-input"
+                        disabled={isDisabled.main}
+                        onChange={(ev) =>
+                          handleChange("main", item.key, ev.target.value)
+                        }
+                        value={config.main.audioInputSource.value}
+                      >
+                        {item.options?.map((option) => (
+                          <option key={option.value} value={option.value}>
+                            {option.label ?? option.value}
+                          </option>
+                        ))}
+                      </select>
+                    ) : item.inputType === "textarea" ? (
+                      <textarea
+                        disabled={isDisabled.main}
+                        value={item.value}
+                        onChange={(ev) =>
+                          handleChange("main", item.key, ev.target.value)
+                        }
+                      />
+                    ) : (
+                      <input
+                        disabled={isDisabled.main}
+                        type={item.valueType}
+                        className="w-full config-input"
+                        value={item.value}
+                        onChange={(ev) =>
+                          handleChange("main", item.key, ev.target.value)
+                        }
+                      />
+                    )}
+                  </div>
+                );
+              })}
             </div>
 
             <div className="grid grid-cols-[1fr_200px] gap-y-16">

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import ElephantDialog from "./ElephantDialog";
 
 const AboutButton = () => {
@@ -7,7 +7,7 @@ const AboutButton = () => {
   return (
     <>
       <button
-        className="absolute px-2 bg-white rounded-full left-2 bottom-2"
+        className="absolute px-2 bg-white rounded-full z-20 left-2 bottom-8"
         onClick={() => setAboutOpen(true)}
       >
         About
