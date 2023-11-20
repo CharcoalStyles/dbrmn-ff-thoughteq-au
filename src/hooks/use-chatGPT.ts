@@ -12,7 +12,7 @@ import {
   PromptType,
   ThemeResponse,
 } from "@/types";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { getIntroPrompt } from "@/utils/addPreviousResponses";
 import { imageLibrary } from "@/data/data";
 import { useConfig } from "@/configContext/ConfigState";
@@ -22,6 +22,8 @@ export const useChatGPT = () => {
   const themesResponses = useRef<PreviousThemesData[]>([]);
   const imagesResponses = useRef<PreviousImageData[]>([]);
   const elephantsResponses = useRef<PreviousElephantData[]>([]);
+
+  const [lastCahracter, setLastCharacter] = useState("");
 
   const { config } = useConfig();
 
@@ -51,6 +53,7 @@ export const useChatGPT = () => {
       const charcacterList = character.value.split(",");
       selectedCharacter =
         charcacterList[Math.floor(Math.random() * charcacterList.length)];
+      setLastCharacter(selectedCharacter);
 
       introPrompt = value.replace("{character}", selectedCharacter);
       previousResponses = characterCommentResponses.current;
@@ -160,7 +163,7 @@ export const useChatGPT = () => {
           const CharacterComment: PreviousCharacterCommentData = {
             text: characterComments[0].text,
             emojis: characterComments[0].emojis,
-            type: config.characterComment.character.value as CharacterType,
+            type: lastCahracter as CharacterType,
           };
 
           characterCommentResponses.current.push(CharacterComment);
