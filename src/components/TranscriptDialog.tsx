@@ -17,6 +17,14 @@ const TranscriptDialog: FC<Props> = ({ fullTranscript }) => {
   useEffect(() => {
     if (fullTranscript.length > 0) {
       let accumulatedTime = 0;
+      const t = [
+        ...fullTranscript,
+        {
+          end: 0,
+          start: 0,
+          text: "HSHSHSHSHS",
+        },
+      ];
       const augmentedTranscript = fullTranscript.map(({ end, start, text }) => {
         const minutes = Math.floor(accumulatedTime / 60);
         const seconds = Math.floor(accumulatedTime % 60);
@@ -47,7 +55,7 @@ const TranscriptDialog: FC<Props> = ({ fullTranscript }) => {
 
   return (
     <>
-      {augmentedTranscript.length > 0 && (
+      {augmentedTranscript.length > -1 && (
         <button
           onClick={openDialog}
           className="absolute px-2 z-90 bg-white rounded-full left-1/2 bottom-8"

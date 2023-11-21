@@ -1,28 +1,40 @@
 import { useConfig } from "@/configContext/ConfigState";
 import { saveConfigToStorage } from "@/configContext/configUtils";
 import { CategoryName, ConfigValueKey } from "@/types";
-import React, { FC, useRef, useState } from "react";
+import React, { FC, useEffect, useRef, useState } from "react";
 import ConfigIcon from "../../public/elephant/silhouette-cog.svg";
 import Image from "next/image";
 import { externalLinks } from "@/data/data";
 interface Props {
   disabled?: boolean;
+  open: boolean;
+  onOpenDialog?: () => void;
+  onCloseDialog?: () => void;
 }
 
-const ConfigurationDialog: FC<Props> = ({ disabled }) => {
+const ConfigurationDialog: FC<Props> = ({
+  disabled,
+  open,
+  onOpenDialog,
+  onCloseDialog,
+}) => {
   const { config, updateConfig } = useConfig();
   const dialogRef = useRef<HTMLDialogElement>(null);
   const [dirty, setDirty] = useState(false);
 
-  const openDialog = () => {
-    if (dialogRef.current) {
+  useEffect(() => {
+    if (open && dialogRef.current) {
       dialogRef.current.showModal();
       dialogRef.current.classList.add("flex", "flex-col");
+      if (onOpenDialog) {
+        onOpenDialog();
+      }
     }
-  };
+  }, [open]);
 
   const closeDialog = () => {
     if (dialogRef.current) {
+      onCloseDialog && onCloseDialog();
       dialogRef.current.classList.remove("flex", "flex-col");
       dialogRef.current.close();
     }
@@ -48,12 +60,12 @@ const ConfigurationDialog: FC<Props> = ({ disabled }) => {
 
   return (
     <>
-      <button
+      {/* <button
         onClick={openDialog}
         className="absolute top-8 right-0 z-20 w-10 p-2"
       >
         <Image alt="elephant" src={ConfigIcon} />
-      </button>
+      </button> */}
 
       <dialog
         className="w-screen h-screen max-w-[unset] max-h-[unset] rounded-lg p-0 bg-pink "
@@ -82,7 +94,7 @@ const ConfigurationDialog: FC<Props> = ({ disabled }) => {
 
             <div className="grid w-full grid-cols-4 gap-x-3 gap-y-3 pr-[200px]">
               {Object.values(config.main).map((item) => {
-                return (
+                return typeof item === "string" ? null : (
                   <div
                     key={item.title}
                     className={`flex flex-col gap-2 ${

@@ -32,6 +32,7 @@ import { TextWithLineBreaks } from "@/components/TextWithLineBreaks";
 import { fitText } from "@/utils/fitText";
 import { useAudioAnalyser } from "@/hooks/use-audio-analyser";
 import TranscriptDialog from "@/components/TranscriptDialog";
+import MiniOptionsDialog from "@/components/MiniOptionsDialog";
 
 export default function Home() {
   const [elephantMessages, setElephantMessages] = useState<ElephantMessage[]>(
@@ -45,6 +46,8 @@ export default function Home() {
   const [images, setImages] = useState<ImageBoardItem[]>([]);
 
   const [isDragging, setIsDragging] = useState(false);
+
+  const [fullOptionsOpen, setFullOptionsOpen] = useState(false);
 
   const zIndexRef = useRef(0);
   const boardTitleRef = useRef<HTMLHeadingElement>(null);
@@ -430,7 +433,15 @@ export default function Home() {
           </div>
         )}
 
-        <ConfigurationDialog />
+        <ConfigurationDialog
+          open={fullOptionsOpen}
+          onCloseDialog={() => setFullOptionsOpen(false)}
+        />
+        <MiniOptionsDialog
+          onFullOptionsClick={() => {
+            setFullOptionsOpen(true);
+          }}
+        />
         <TranscriptDialog fullTranscript={fullTranscript} />
 
         <ReactionsBoard
@@ -469,7 +480,7 @@ export default function Home() {
 
         <AboutButton />
 
-        <div className="absolute bottom-8 right-0 flex items-end gap-4">
+        <div className="absolute bottom-8 right-0 flex items-end gap-4 z-10">
           <div className="">
             <canvas ref={canvasRef} width="300" height="40"></canvas>
           </div>
