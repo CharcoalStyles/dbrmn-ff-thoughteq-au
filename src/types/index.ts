@@ -56,8 +56,6 @@ export type ConfigValueKey =
 
 export type Config = {
   main: {
-    title: string;
-    description: string;
     inactiveTimeout: ConfigValue;
     maxRecordingDuration: ConfigValue;
     timeSlice: ConfigValue;
@@ -69,8 +67,6 @@ export type Config = {
     openAiOrganisation: ConfigValue;
   };
   characterComment: {
-    title: string;
-    description: string;
     introPrompt: ConfigValue;
     active: ConfigValue;
     character: ConfigValue;
@@ -81,8 +77,6 @@ export type Config = {
     getLastXWordsFromTranscript: ConfigValue;
   };
   theme: {
-    title: string;
-    description: string;
     introPrompt: ConfigValue;
     active: ConfigValue;
     startTriggers: ConfigValue;
@@ -92,8 +86,6 @@ export type Config = {
     getLastXWordsFromTranscript: ConfigValue;
   };
   image: {
-    title: string;
-    description: string;
     introPrompt: ConfigValue;
     active: ConfigValue;
     startTriggers: ConfigValue;
@@ -103,8 +95,6 @@ export type Config = {
     getLastXWordsFromTranscript: ConfigValue;
   };
   elephant: {
-    title: string;
-    description: string;
     introPrompt: ConfigValue;
     active: ConfigValue;
     promptInterval: ConfigValue;
@@ -115,14 +105,10 @@ export type Config = {
     showPostits: ConfigValue;
   };
   whisper: {
-    title: string;
-    description: string;
     documentation: ConfigValue;
     languageOptions: ConfigValue;
   };
   chatGPT: {
-    title: string;
-    description: string;
     documentation: ConfigValue;
   };
 };

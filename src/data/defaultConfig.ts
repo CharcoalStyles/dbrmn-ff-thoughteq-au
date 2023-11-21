@@ -1,10 +1,31 @@
 import { CharacterType, Config } from "@/types";
 import { imageLibrary } from "../data/data";
 
+export const configCopy = {
+  elephant: {
+    title: "Elephants",
+    description:
+      "Taboo & sensitive topics, controversial issues, unaddressed concerns, ignored realities, suppressed conflicts, hidden discomforts.",
+  },
+  characterComment: {
+    title: "Character Comment",
+    description:
+      "Characters will comment on the current conversation. The comments will be in line with the character's personality.",
+  },
+  theme: {
+    title: "Theme",
+    description:
+      "This will surface themes from the conversation, in the form of quotes, comments or thoughts.",
+  },
+  image: {
+    title: "Images",
+    description:
+      "This will show relevant images with hashtags, as a response to the conversation.",
+  },
+};
+
 export const defaultConfigValues: Config = {
   main: {
-    description: "",
-    title: "",
     inactiveTimeout: {
       title: "Inactive timeout",
       key: "inactiveTimeout",
@@ -78,9 +99,6 @@ export const defaultConfigValues: Config = {
     },
   },
   characterComment: {
-    title: "Character Comment",
-    description:
-      "Characters will comment on the current conversation. The comments will be in line with the character's personality.",
     introPrompt: {
       title: "Intro prompt",
       key: "introPrompt",
@@ -145,9 +163,6 @@ You are {character}. Now, look at the transcript and write a single humoristic "
     },
   },
   theme: {
-    title: "Theme",
-    description:
-      "This will surface themes from the conversation, in the form of quotes, comments or thoughts.",
     introPrompt: {
       title: "Intro prompt",
       key: "introPrompt",
@@ -217,9 +232,6 @@ Remember, your response should consist of a single JSON object.
     },
   },
   image: {
-    title: "Images",
-    description:
-      "This will show relevant images with hashtags, as a response to the conversation.",
     introPrompt: {
       title: "Intro prompt",
       key: "introPrompt",
@@ -282,9 +294,6 @@ Previously used images and hashtags:`,
     },
   },
   elephant: {
-    title: "Elephants",
-    description:
-      "Taboo & sensitive topics, controversial issues, unaddressed concerns, ignored realities, suppressed conflicts, hidden discomforts.",
     introPrompt: {
       title: "Intro prompt",
       key: "introPrompt",
@@ -370,8 +379,6 @@ Previously used images and hashtags:`,
     },
   },
   whisper: {
-    description: "",
-    title: "",
     documentation: {
       title: "Documentation",
       key: "documentation",
@@ -388,8 +395,6 @@ Previously used images and hashtags:`,
     },
   },
   chatGPT: {
-    description: "",
-    title: "",
     documentation: {
       title: "Documentation",
       key: "documentation",

@@ -4,6 +4,7 @@ import ConfigIcon from "../../public/elephant/silhouette-cog.svg";
 import Image from "next/image";
 import { Config } from "@/types";
 import { useConfig } from "@/configContext/ConfigState";
+import { configCopy } from "@/data/defaultConfig";
 
 interface Props {
   onFullOptionsClick: () => void;
@@ -27,12 +28,9 @@ const MiniOptionsDialog: FC<Props> = ({ onFullOptionsClick }) => {
     }
   };
 
-  const miniOptionKeys: Array<keyof Config> = [
-    "elephant",
-    "characterComment",
-    "theme",
-    "image",
-  ];
+  const miniOptionKeys: Array<
+    keyof Omit<Config, "chatGPT" | "main" | "whisper">
+  > = ["elephant", "characterComment", "theme", "image"];
 
   return (
     <>
@@ -46,9 +44,11 @@ const MiniOptionsDialog: FC<Props> = ({ onFullOptionsClick }) => {
         <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center">
           <div className="bg-elephant text-pink w-1/2 h-full overflow-y-auto rounded-lg shadow-lg flex flex-col">
             <div className="flex justify-between items-center p-4">
-              <button className=" rounded-lg p-2">Reset all</button>
+              <button className="bg-pink text-elephant rounded-lg p-2">
+                Reset all
+              </button>
               <button
-                className=" rounded-lg p-2"
+                className="bg-pink text-elephant rounded-lg p-2"
                 onClick={() => {
                   closeDialog();
                   onFullOptionsClick();
@@ -56,7 +56,10 @@ const MiniOptionsDialog: FC<Props> = ({ onFullOptionsClick }) => {
               >
                 Full Options
               </button>
-              <button className="rounded-lg p-2" onClick={closeDialog}>
+              <button
+                className="bg-pink text-elephant rounded-lg p-2"
+                onClick={closeDialog}
+              >
                 Close
               </button>
             </div>
@@ -68,14 +71,11 @@ const MiniOptionsDialog: FC<Props> = ({ onFullOptionsClick }) => {
                   {miniOptionKeys.map((key) => {
                     // @ts-ignore
                     const isActive = config[key].active.value === "true";
-                    //return null if the option doesn't have the property "value"
-                    //@ts-ignore
-                    console.log(isActive, config[key].active.value);
 
                     return (
                       <div className="py-4" key={key}>
                         <div className="flex text-lg justify-between items-center">
-                          <p>{config[key].title}</p>
+                          <p>{configCopy[key].title}</p>
                           <div>
                             <label className="flex cursor-pointer select-none items-center">
                               <div className="relative">
@@ -106,7 +106,7 @@ const MiniOptionsDialog: FC<Props> = ({ onFullOptionsClick }) => {
                             </label>
                           </div>
                         </div>
-                        <p className="w-4/5">{config[key].description}</p>
+                        <p className="w-4/5">{configCopy[key].description}</p>
                       </div>
                     );
                   })}
