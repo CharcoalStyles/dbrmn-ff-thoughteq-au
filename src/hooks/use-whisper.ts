@@ -4,6 +4,8 @@ import { Capacitor } from "@capacitor/core";
 import type { Mp3Encoder } from "lamejs";
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { Options, RecordRTCPromisesHandler } from "recordrtc";
+import axios, { AxiosError, AxiosResponse } from "axios";
+import { type } from "os";
 
 interface Props {
   apiKey: string;
@@ -11,6 +13,7 @@ interface Props {
   timeSlice: number;
   language: string;
   onStream: (stream: MediaStream) => void;
+  onError?: (message: string) => void;
 }
 
 export type WhisperResponse = {
@@ -34,6 +37,7 @@ export const useWhisper = ({
   language,
   onStream,
   openAiOrg,
+  onError,
 }: Props) => {
   const { config } = useConfig();
   const recorder = useRef<RecordRTCPromisesHandler>();
@@ -106,12 +110,39 @@ export const useWhisper = ({
     };
     console.warn("requestOptions(headers", requestOptions.headers);
 
-    const response = await fetch(requestUrl, requestOptions);
-    const responseData: WhisperResponse = await response.json();
+    const response: AxiosResponse<WhisperResponse> | string = await axios
+      .post(requestUrl, formData, {
+        headers: {
+          Authorization: "Bearer " + auth.apiKey,
+          ...(auth.organisation === undefined
+            ? {}
+            : { "OpenAI-Organization": auth.organisation }),
+        },
+      })
+      .then((response) => {
+        console.log("response", response);
+        return response;
+      })
+      .catch((error: AxiosError<{ error: { message: string } }>) => {
+        console.error("error", error);
+        return error.response?.data.error.message ?? error.message;
+      });
+
+    if (typeof response === "string") {
+      onError?.(response);
+      const fakeResposne: WhisperResponse = {
+        duration: -1,
+        language: "english",
+        segments: [],
+        task: "transcribe",
+        text: "",
+      };
+      return fakeResposne;
+    }
 
     console.timeEnd("Whisper transcription request");
-    console.log("← RECEIVED TRANSCRIPTION", { responseData });
-    return responseData;
+    console.log("← RECEIVED TRANSCRIPTION", { response });
+    return response.data;
   };
 
   useEffect(() => {
@@ -217,6 +248,7 @@ export const useWhisper = ({
       )
       .catch((error) => {
         console.error(error);
+        onError?.(error.message);
       });
   }, [timeSlice, config.main.audioInputSource.value]);
 

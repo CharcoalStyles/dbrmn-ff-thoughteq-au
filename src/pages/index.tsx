@@ -70,6 +70,8 @@ export default function Home() {
     callerId: "index-page",
   });
 
+  const [errorMessage, setErrorMessage] = useState<string>();
+
   const org = config.main.openAiOrganisation.value;
   const {
     transcript,
@@ -83,6 +85,13 @@ export default function Home() {
     language: config.main.language.value,
     onStream: analyseStream,
     openAiOrg: org.trim() === "" ? undefined : org,
+    onError: (e) => {
+      setErrorMessage(e);
+
+      setTimeout(() => {
+        setErrorMessage(undefined);
+      }, 10000);
+    },
   });
 
   const {
@@ -422,6 +431,15 @@ export default function Home() {
           isDragging ? "select-none" : "select-auto"
         } ${recordingInBackground ? "bg-pink-muted" : "bg-pink"}`}
       >
+        {errorMessage && (
+          <div
+            className="bg-orange-100 border-l-4 border-orange-500 text-orange-700 p-4 absolute top-4 z-50"
+            role="alert"
+          >
+            <p className="font-bold">Error</p>
+            <p>{errorMessage}</p>
+          </div>
+        )}
         {config.main.boardTitle.value && (
           <div className="absolute flex w-screen h-screen">
             <h1
