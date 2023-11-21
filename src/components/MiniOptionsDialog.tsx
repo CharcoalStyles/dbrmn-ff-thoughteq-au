@@ -44,7 +44,12 @@ const MiniOptionsDialog: FC<Props> = ({ onFullOptionsClick }) => {
         <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center">
           <div className="bg-elephant text-pink w-1/2 h-full overflow-y-auto rounded-lg shadow-lg flex flex-col">
             <div className="flex justify-between items-center p-4">
-              <button className="bg-pink text-elephant rounded-lg p-2">
+              <button
+                className="bg-pink text-elephant rounded-lg p-2"
+                onClick={() => {
+                  updateConfig({ type: "RESET_CONFIG", saveToStorage: true });
+                }}
+              >
                 Reset all
               </button>
               <button

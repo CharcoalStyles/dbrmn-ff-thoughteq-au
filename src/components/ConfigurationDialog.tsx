@@ -196,7 +196,6 @@ const ConfigurationDialog: FC<Props> = ({
                       for (let i = 0; i < l; i++) {
                         v.push(ev.currentTarget.selectedOptions[i].value);
                       }
-                      console.log(v);
                       handleChange(
                         "characterComment",
                         config.characterComment.character.key,
