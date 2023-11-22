@@ -72,7 +72,7 @@ const TranscriptDialog: FC<Props> = ({ fullTranscript }) => {
             <div className="p-4 overflow-y-auto flex-grow">
               {augmentedTranscript.map(({ text, time }) => {
                 return (
-                  <p key={time}>
+                  <p key={`${time}-${text.slice(0,10)}`}>
                     <span className="pr-2 font-bold">{time}</span>
                     {text}
                   </p>

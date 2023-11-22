@@ -200,7 +200,6 @@ export default function Home() {
       .splice(-wordCount)
       .join(" ");
     sendUserMessage(type, lastTranscript).then((res) => {
-      console.log("sendUserMessage res: ", res);
       pendingResponse.current = false;
       if (res) onResponse(res);
     });
