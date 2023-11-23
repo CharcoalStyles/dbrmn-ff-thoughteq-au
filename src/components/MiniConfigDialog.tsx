@@ -7,10 +7,12 @@ import { useConfig } from "@/configContext/ConfigState";
 import { configCopy } from "@/data/defaultConfig";
 
 interface Props {
-  onFullOptionsClick: () => void;
+  onFullConfigClick: () => void;
 }
 
-const MiniOptionsDialog: FC<Props> = ({ onFullOptionsClick }) => {
+const MiniConfigDialog: FC<Props> = ({
+  onFullConfigClick: onFullOptionsClick,
+}) => {
   const dialogRef = useRef<HTMLDialogElement>(null);
   const { config, updateConfig } = useConfig();
 
@@ -126,4 +128,4 @@ const MiniOptionsDialog: FC<Props> = ({ onFullOptionsClick }) => {
   );
 };
 
-export default MiniOptionsDialog;
+export default MiniConfigDialog;
