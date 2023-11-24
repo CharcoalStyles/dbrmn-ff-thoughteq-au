@@ -156,6 +156,7 @@ const MiniOptionsDialog: FC<Props> = ({ onFullOptionsClick }) => {
                       elephantProfessions.map(({ text }, i) => {
                         return (
                           <div
+                            key={text}
                             className={`w-1/4 h-24 m-2 border grid min-w-[7rem] transform cursor-pointer place-items-center rounded-xl px-3 py-21 ${
                               i === 4
                                 ? "scale-105 text-elephant  border-elephant bg-pink text-2xl"
@@ -170,6 +171,7 @@ const MiniOptionsDialog: FC<Props> = ({ onFullOptionsClick }) => {
                       elephantFeelings.map(({ text }, i) => {
                         return (
                           <div
+                            key={text}
                             className={`w-1/4 h-24 m-2 border grid min-w-[7rem] transform cursor-pointer place-items-center rounded-xl px-3 py-21 ${
                               i === 4
                                 ? "scale-105 text-elephant  border-elephant bg-pink text-2xl"

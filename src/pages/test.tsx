@@ -202,6 +202,7 @@ export default function Test() {
                   responses.forEach((resposne) => {
                     console.log("VVV", resposne);
                     if (resposne !== undefined) {
+                      //@ts-ignore
                       setGptReturns((prev) => [...prev, ...resposne]);
                     }
                   });
@@ -223,7 +224,10 @@ export default function Test() {
             switch (response.responseType) {
               case "Elephant":
                 return (
-                  <div className="w-1/4 px-4 border-t-2 border-elephant">
+                  <div
+                    key={response.text.substring(0, 15)}
+                    className="w-1/4 px-4 border-t-2 border-elephant"
+                  >
                     <p className="text-xl">{response.responseType}</p>
                     <p className="text-xl font-bold">
                       {c.profession.text} - {c.feeling.text}
@@ -234,7 +238,10 @@ export default function Test() {
                 );
               case "Character":
                 return (
-                  <div className="w-1/4 px-4 border-t-2 border-elephant">
+                  <div
+                    key={response.text.substring(0, 15)}
+                    className="w-1/4 px-4 border-t-2 border-elephant"
+                  >
                     <p className="text-xl">{response.responseType}</p>
                     <p className="text-xl font-bold">
                       {c.profession.text} - {c.feeling.text}
@@ -247,7 +254,10 @@ export default function Test() {
                 );
               case "Theme":
                 return (
-                  <div className="w-1/4 px-4 border-t-2 border-elephant">
+                  <div
+                    key={response.text.substring(0, 15)}
+                    className="w-1/4 px-4 border-t-2 border-elephant"
+                  >
                     <p className="text-xl">{response.responseType}</p>
                     <p className="text-xl font-bold">
                       {c.profession.text} - {c.feeling.text}
@@ -260,7 +270,10 @@ export default function Test() {
                 );
               case "Image":
                 return (
-                  <div className="w-1/4 px-4 border-t-2 border-elephant">
+                  <div
+                    key={response.hashtag}
+                    className="w-1/4 px-4 border-t-2 border-elephant"
+                  >
                     <p className="text-xl">{response.responseType}</p>
                     <p className="text-xl font-bold">
                       {c.profession.text} - {c.feeling.text}
