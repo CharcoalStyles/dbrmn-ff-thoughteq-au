@@ -16,6 +16,7 @@ import { useRef, useState } from "react";
 import { getIntroPrompt } from "@/utils/addPreviousResponses";
 import { imageLibrary } from "@/data/data";
 import { useConfig } from "@/configContext/ConfigState";
+import { elephantFeelings, elephantProfessions } from "@/data/defaultConfig";
 
 export const useChatGPT = () => {
   const characterCommentResponses = useRef<PreviousCharacterCommentData[]>([]);
@@ -27,13 +28,29 @@ export const useChatGPT = () => {
 
   const { config } = useConfig();
 
-  const sendUserMessage = async (type: AnalysisType, transcript: string) => {
+  const sendUserMessage = async (
+    type: AnalysisType,
+    transcript: string,
+    overrides?: {
+      model?: string;
+      temperature?: number;
+      profession?: string;
+      feeling?: string;
+    }
+  ) => {
     const { model, temperature } = config[type];
-    let selectedCharacter = "";
+
+    const profession =
+      overrides?.profession ??
+      elephantProfessions[config.personality.profession].prompt;
+    const feeling =
+      overrides?.feeling ?? elephantFeelings[config.personality.feeling].prompt;
+
     console.log("→ SENDING PROMPT:", {
       type,
       model: model.value,
       temperature: temperature.value,
+      overrides,
     });
 
     // create a new set of messages,
@@ -44,17 +61,7 @@ export const useChatGPT = () => {
     let introPrompt = "";
     let previousResponses: PreviousResponses[];
     if (type === AnalysisType.CharacterComment) {
-      const {
-        character,
-        introPrompt: { value },
-      } = config.characterComment;
-
-      const charcacterList = character.value.split(",");
-      selectedCharacter =
-        charcacterList[Math.floor(Math.random() * charcacterList.length)];
-      lastCharacter.current = selectedCharacter;
-
-      introPrompt = value.replace("{character}", selectedCharacter);
+      introPrompt = config.theme.introPrompt.value;
       previousResponses = characterCommentResponses.current;
     } else if (type === AnalysisType.Theme) {
       introPrompt = config.theme.introPrompt.value;
@@ -68,7 +75,13 @@ export const useChatGPT = () => {
     }
     messages.push({
       role: "system",
-      content: getIntroPrompt(introPrompt, type, previousResponses),
+      content: getIntroPrompt(
+        introPrompt,
+        type,
+        previousResponses,
+        profession,
+        feeling
+      ),
     });
 
     messages.push({
@@ -95,11 +108,12 @@ export const useChatGPT = () => {
       },
       body: JSON.stringify({
         messages: messages,
-        model: model.value,
+        model: overrides?.model ?? model.value,
         max_tokens: 500,
         n: 1,
         stop: null,
-        temperature: parseFloat(temperature.value),
+        temperature:
+          overrides?.temperature ?? Number.parseFloat(temperature.value),
       }),
     };
 

@@ -4,7 +4,11 @@ import ConfigIcon from "../../public/elephant/silhouette-cog.svg";
 import Image from "next/image";
 import { Config } from "@/types";
 import { useConfig } from "@/configContext/ConfigState";
-import { configCopy } from "@/data/defaultConfig";
+import {
+  configCopy,
+  elephantFeelings,
+  elephantProfessions,
+} from "@/data/defaultConfig";
 
 interface Props {
   onFullOptionsClick: () => void;
@@ -29,8 +33,10 @@ const MiniOptionsDialog: FC<Props> = ({ onFullOptionsClick }) => {
   };
 
   const miniOptionKeys: Array<
-    keyof Omit<Config, "chatGPT" | "main" | "whisper">
+    keyof Omit<Config, "chatGPT" | "main" | "whisper" | "personality">
   > = ["elephant", "characterComment", "theme", "image"];
+
+  const [elephantFeels, setElephantFeels] = useState(false);
 
   return (
     <>
@@ -42,7 +48,7 @@ const MiniOptionsDialog: FC<Props> = ({ onFullOptionsClick }) => {
       </button>
       <dialog ref={dialogRef} onClose={closeDialog}>
         <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center">
-          <div className="bg-elephant text-pink w-1/2 h-full overflow-y-auto rounded-lg shadow-lg flex flex-col">
+          <div className="bg-elephant text-pink w-full h-full overflow-y-auto rounded-lg shadow-lg flex flex-col">
             <div className="flex justify-between items-center p-4">
               <button
                 className="bg-pink text-elephant rounded-lg p-2"
@@ -117,6 +123,65 @@ const MiniOptionsDialog: FC<Props> = ({ onFullOptionsClick }) => {
                   })}
                 </div>
                 <hr className="border-2" />
+                <div className="flex flex-col py-4 px-8">
+                  <div className="flex text-lg justify-between items-center">
+                    <div>The elephant is...</div>
+                    <div>
+                      <label className="flex cursor-pointer select-none items-center">
+                        <div className="relative">
+                          <input
+                            type="checkbox"
+                            checked={elephantFeels}
+                            onChange={() => {
+                              setElephantFeels(!elephantFeels);
+                            }}
+                            className="sr-only"
+                          />
+                          <div
+                            className={`box block h-8 w-14 rounded-full transition-colors bg-pink`}
+                          ></div>
+                          <div
+                            className={`absolute left-1 top-1 flex h-6 w-6 items-center justify-center rounded-full bg-black transition ${
+                              elephantFeels ? "translate-x-full" : ""
+                            }`}
+                          ></div>
+                        </div>
+                      </label>
+                    </div>
+                    <div>The elephant feels...</div>
+                  </div>
+
+                  <div className="flex text-lg flex-wrap justify-between items-center">
+                    {!elephantFeels &&
+                      elephantProfessions.map(({ text }, i) => {
+                        return (
+                          <div
+                            className={`w-1/4 h-24 m-2 border grid min-w-[7rem] transform cursor-pointer place-items-center rounded-xl px-3 py-21 ${
+                              i === 4
+                                ? "scale-105 text-elephant  border-elephant bg-pink text-2xl"
+                                : "border-pink bg-elephant text-pink text-xl"
+                            }`}
+                          >
+                            {text}
+                          </div>
+                        );
+                      })}
+                    {elephantFeels &&
+                      elephantFeelings.map(({ text }, i) => {
+                        return (
+                          <div
+                            className={`w-1/4 h-24 m-2 border grid min-w-[7rem] transform cursor-pointer place-items-center rounded-xl px-3 py-21 ${
+                              i === 4
+                                ? "scale-105 text-elephant  border-elephant bg-pink text-2xl"
+                                : "border-pink bg-elephant text-pink text-xl"
+                            }`}
+                          >
+                            {text}
+                          </div>
+                        );
+                      })}
+                  </div>
+                </div>
               </div>
             </div>
           </div>

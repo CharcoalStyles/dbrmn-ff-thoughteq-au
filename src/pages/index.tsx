@@ -201,6 +201,7 @@ export default function Home() {
       .join(" ");
     sendUserMessage(type, lastTranscript).then((res) => {
       pendingResponse.current = false;
+      //@ts-ignore
       if (res) onResponse(res);
     });
   };

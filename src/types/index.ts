@@ -111,6 +111,10 @@ export type Config = {
   chatGPT: {
     documentation: ConfigValue;
   };
+  personality: {
+    profession: number;
+    feeling: number;
+  };
 };
 export interface PromptType {
   role: string;
@@ -164,12 +168,14 @@ export type PostitType = "Theme" | "CharacterComment" | "Elephant";
 export type ThemeType = "Quote" | "Comment" | "Thought";
 
 export type CharacterCommentResponse = {
+  responseType: "Character";
   text: string;
   emojis: string;
   type: CharacterType;
 };
 
 export type ThemeResponse = {
+  responseType: "Theme";
   theme: string;
   emojis: string;
   type: ThemeType;
@@ -180,12 +186,14 @@ export type ThemeResponse = {
 };
 
 export type ImageResponse = {
+  responseType: "Image";
   file: string;
   hashtag: string;
   quality: number;
 };
 
 export type ElephantResponse = {
+  responseType: "Elephant";
   elephantLevel: ElephantRating;
   text: string;
   type?: string;
