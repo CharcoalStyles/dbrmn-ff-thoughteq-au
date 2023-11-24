@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { useConfig } from "@/configContext/ConfigState";
 import { elephantProfessions, elephantFeelings } from "@/data/defaultConfig";
 import { useChatGPT } from "@/hooks/use-chatGPT";
@@ -215,35 +216,35 @@ export default function Test() {
           </div>
         </div>
       </div>
-      <div className="mt-8 flex flex-row w-2/3">
+      <div className="mt-8 flex flex-col w-2/3">
         <p className="text-3xl w-full">Responses from the Elephant</p>
         <div className="flex flex-row w-full">
           {gptReturns.map((response, i) => {
             const c = combinations[i];
             console.log("WWW", response, c);
-            switch (response.responseType) {
-              case "Elephant":
+            switch (c.response) {
+              case AnalysisType.Elephant:
+                //ignore typescript errors until the end of file
                 return (
                   <div
                     key={response.text.substring(0, 15)}
-                    className="w-1/4 px-4 border-t-2 border-elephant"
+                    className="w-1/3 px-4 border-t-2 border-elephant"
                   >
-                    <p className="text-xl">{response.responseType}</p>
-                    <p className="text-xl font-bold">
+                    <p className="text-xl">Elephant</p>
+                    <p className="text-lg font-bold">
                       {c.profession.text} - {c.feeling.text}
                     </p>
                     <p>{response.text}</p>
-                    <p>Level: {response.elephantLevel}</p>
                   </div>
                 );
-              case "Character":
+              case AnalysisType.CharacterComment:
                 return (
                   <div
                     key={response.text.substring(0, 15)}
                     className="w-1/4 px-4 border-t-2 border-elephant"
                   >
-                    <p className="text-xl">{response.responseType}</p>
-                    <p className="text-xl font-bold">
+                    <p className="text-xl">Character</p>
+                    <p className="text-lg font-bold">
                       {c.profession.text} - {c.feeling.text}
                     </p>
                     <div>
@@ -252,14 +253,14 @@ export default function Test() {
                     </div>
                   </div>
                 );
-              case "Theme":
+              case AnalysisType.Theme:
                 return (
                   <div
                     key={response.text.substring(0, 15)}
                     className="w-1/4 px-4 border-t-2 border-elephant"
                   >
-                    <p className="text-xl">{response.responseType}</p>
-                    <p className="text-xl font-bold">
+                    <p className="text-xl">Theme</p>
+                    <p className="text-lg font-bold">
                       {c.profession.text} - {c.feeling.text}
                     </p>
                     <div>
@@ -268,14 +269,14 @@ export default function Test() {
                     </div>
                   </div>
                 );
-              case "Image":
+              case AnalysisType.ImageAndHashtags:
                 return (
                   <div
                     key={response.hashtag}
                     className="w-1/4 px-4 border-t-2 border-elephant"
                   >
-                    <p className="text-xl">{response.responseType}</p>
-                    <p className="text-xl font-bold">
+                    <p className="text-xl">Image</p>
+                    <p className="text-lg font-bold">
                       {c.profession.text} - {c.feeling.text}
                     </p>
                     <div>

@@ -176,7 +176,7 @@ export const useChatGPT = () => {
           const CharacterComment: PreviousCharacterCommentData = {
             text: characterComments[0].text,
             emojis: characterComments[0].emojis,
-            type: lastCharacter.current as CharacterType,
+            type: characterComments[0].responseType as CharacterType,
           };
 
           characterCommentResponses.current.push(CharacterComment);

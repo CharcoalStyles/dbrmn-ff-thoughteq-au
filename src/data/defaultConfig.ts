@@ -30,7 +30,7 @@ export const configCopy = {
 export const elephantProfessions = [
   { text: "Head of Marketing", prompt: "the head of Marketing" },
   { text: "Head of Deisgn", prompt: "the head of Deisgn" },
-  { text: "Head of Finance", prompt: "the ead of Finance" },
+  { text: "Head of Finance", prompt: "the head of Finance" },
   { text: "CEO", prompt: "the CEO" },
   { text: "CTO", prompt: "the CTO" },
   { text: "HR", prompt: "the HR" },
