@@ -1,3 +1,4 @@
+import { elephantUserBio } from "@/data/defaultConfig";
 import {
   AnalysisType,
   PreviousCharacterCommentData,
@@ -14,8 +15,13 @@ TODO: rensade alla inkl senaste upplagda
 export const getIntroPrompt = (
   prompt: string,
   type: AnalysisType,
-  previousResponses: PreviousResponses[]
+  previousResponses: PreviousResponses[],
+  profession: string,
+  feeling: string
 ) => {
+  const elephantBio = elephantUserBio
+    .replace("{profession}", profession)
+    .replace("{feeling}", feeling);
   let emojis;
   switch (type) {
     case AnalysisType.CharacterComment:
@@ -31,7 +37,7 @@ export const getIntroPrompt = (
       const emojiListing =
         emojis?.length > 0 ? `Emojis: ${emojis.join("")}` : null;
 
-      return [prompt, textListing, "\n", emojiListing]
+      return [elephantBio, prompt, textListing, "\n", emojiListing]
         .filter(Boolean)
         .join("\n\n");
 
@@ -44,6 +50,7 @@ export const getIntroPrompt = (
       );
 
       return [
+        elephantBio,
         prompt,
         "Themes",
         themes,
@@ -60,16 +67,22 @@ export const getIntroPrompt = (
         (response) => response.hashtag
       );
 
-      return [prompt, "Images", images, "\n", "Hashtags", hashtags].join(
-        "\n\n"
-      );
+      return [
+        elephantBio,
+        prompt,
+        "Images",
+        images,
+        "\n",
+        "Hashtags",
+        hashtags,
+      ].join("\n\n");
 
     case AnalysisType.Elephant:
       const elephants = (previousResponses as PreviousElephantData[]).map(
         (response) => response.text
       );
 
-      return [prompt, elephants].join("\n\n");
+      return [elephantBio, prompt, elephants].join("\n\n");
 
     default:
       return prompt;
