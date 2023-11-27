@@ -29,7 +29,8 @@ export type CategoryName =
   | "image"
   | "elephant"
   | "whisper"
-  | "chatGPT";
+  | "chatGPT"
+  | "personality";
 
 export type ConfigValueKey =
   | "inactiveTimeout"
@@ -52,7 +53,9 @@ export type ConfigValueKey =
   | "showPostits"
   | "boardTitle"
   | "openAiKey"
-  | "openAiOrganisation";
+  | "openAiOrganisation"
+  | "profession"
+  | "feeling";
 
 export type Config = {
   main: {
@@ -112,8 +115,8 @@ export type Config = {
     documentation: ConfigValue;
   };
   personality: {
-    profession: number;
-    feeling: number;
+    profession: ConfigValue;
+    feeling: ConfigValue;
   };
 };
 export interface PromptType {

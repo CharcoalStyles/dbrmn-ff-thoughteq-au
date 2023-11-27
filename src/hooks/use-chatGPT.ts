@@ -42,9 +42,12 @@ export const useChatGPT = () => {
 
     const profession =
       overrides?.profession ??
-      elephantProfessions[config.personality.profession].prompt;
+      elephantProfessions[Number.parseInt(config.personality.profession.value)]
+        .prompt;
     const feeling =
-      overrides?.feeling ?? elephantFeelings[config.personality.feeling].prompt;
+      overrides?.feeling ??
+      elephantFeelings[Number.parseInt(config.personality.feeling.value)]
+        .prompt;
 
     console.log("→ SENDING PROMPT:", {
       type,

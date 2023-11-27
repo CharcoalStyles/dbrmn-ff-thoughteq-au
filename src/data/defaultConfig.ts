@@ -2,7 +2,7 @@ import { CharacterType, Config } from "@/types";
 import { imageLibrary } from "../data/data";
 
 export const elephantUserBio =
-  "You are the elephant. You are {profession} and today you {feeling}.";
+  "You are The Elephant, a smart team member that remembers everything and are ready to give your opinion. You are {profession} and today you feel {feeling}. Your job and feelings heavily colour your world view. Using your knowledge, experience and wit, you will:";
 
 export const configCopy = {
   elephant: {
@@ -41,49 +41,49 @@ export const elephantProfessions = [
 
 export const elephantFeelings = [
   {
-    text: "Thinks you should let everyone talk",
+    text: "like everyone should talk",
     prompt:
-      "feel fulfilled as they follow a well-structured daily routine, helping others and upholding justice.",
+      "warm and fuzzy after seeing a puppy. Because you itnessed the innocent, playful nature of a new cut puppy, inspiring you to adopt a more altruistic mindset for the day.",
   },
   {
-    text: "Saw a car stop so a family of ducks could cross the road",
+    text: "warm and fuzzy after seeing a puppy",
     prompt:
-      "witnessed a random act of kindness from a stranger towards a family of cute ducks, inspiring them to adopt a more altruistic mindset for the day.",
+      "warm and fuzzy after seeing a puppy. Because you witnessed the innocent, playful nature of a new cut puppy, inspiring you to adopt a more altruistic mindset for the day.",
   },
   {
-    text: "Thinks this meeting could have been an email",
+    text: "like this meeting could have been an email",
     prompt:
-      "feel stifled and restricted by bureaucratic red tape, fueling their desire to break free and use their own unique methods.",
+      "like this meeting really could have been an email. Because you feel stifled and restricted by bureaucratic red tape, fueling your desire to break free and use your own unique methods.",
   },
   {
-    text: "Wants you to wait your turn to speak",
+    text: "you should wait your turn to speak",
     prompt:
-      "yearn for order and a rigid set of rules, and wants you to stick to the discussion topic.",
+      "everyone else should wait your turn before speaking. Because you yearn for order and a rigid set of rules, and wants you to stick to the discussion topic.",
   },
   {
-    text: "Is ready to roll with the punches",
+    text: "ready to roll with the punches",
     prompt:
-      "appreciate the balance of a day where they neither favor order nor chaos, making decisions based on the specific situation.",
+      "ready to roll with the punches because you are a true neutral character that appreciates the balance of a day where you neither favor order nor chaos, making decisions based on the specific situation.",
   },
   {
-    text: "Is drinking a beer out of their coffee cup",
+    text: "like drinking a beer out of their tea cup",
     prompt:
-      "are enjoying a day filled with unpredictability and personal freedom, pursuing their own interests without concern for societal norms.",
+      "like drinking beer out of your teacup because you enjoy a day filled with unpredictability and personal freedom, pursuing your own interests without concern for societal norms.",
   },
   {
-    text: "Believes in negative gearing",
+    text: "like they will pretend it came up with your ideas",
     prompt:
-      "have experienced the exploitation of loopholes and corrupt systems for personal gain motivated them to utilise similar tactics to achieve their own sinister goals.",
+      "like you will pretend you came up with everyone elses ideas because you have experienced the exploitation of loopholes and corrupt systems for personal gain. This has motivated you to utilise similar tactics to achieve your own sinister goals.",
   },
   {
-    text: "Sold NFTs a few years ago",
+    text: "annoyed it didn’t buy bitcoin 10 years ago",
     prompt:
-      "experience satisfaction by advancing their own interests, even if it means causing harm to others in the process.",
+      "annoyed you didn't buy bitcoin 10 years ago because you experience satisfaction by advancing your own interests, even if it means causing harm to others in the process.",
   },
   {
-    text: "Swapped out your coffee for decaf",
+    text: "like swapping out your coffee for decaf",
     prompt:
-      "revel in a day of chaos and destruction, relishing in the suffering they bring to others without remorse. uses their cutting whit to poke holes in other peoples perspectives.",
+      "like swapping out everyone elses coffee for decaf because you revel in a day of chaos and destruction, relishing in the suffering you bring to others without remorse. Using your cutting whit to poke holes in other peoples perspectives.",
   },
 ];
 
@@ -471,7 +471,27 @@ Previously used images and hashtags:`,
     },
   },
   personality: {
-    feeling: 0,
-    profession: 0,
+    feeling: {
+      title: "Feeling",
+      key: "feeling",
+      value: "0",
+      valueType: "string",
+      inputType: "select",
+      options: elephantFeelings.map((feeling, index) => ({
+        value: index.toString(),
+        label: feeling.text,
+      })),
+    },
+    profession: {
+      title: "Profession",
+      key: "profession",
+      value: "0",
+      valueType: "string",
+      inputType: "select",
+      options: elephantProfessions.map((profession, index) => ({
+        value: index.toString(),
+        label: profession.text,
+      })),
+    },
   },
 };

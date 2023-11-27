@@ -19,7 +19,6 @@ const responseTypes: Array<AnalysisType> = [
 ];
 
 export default function Test() {
-  const {} = useConfig();
   const { sendUserMessage } = useChatGPT();
 
   const [transcript, setTranscript] = useState<string>("");
