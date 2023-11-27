@@ -74,10 +74,10 @@ const MiniOptionsDialog: FC<Props> = ({ onFullOptionsClick }) => {
                 Close
               </button>
             </div>
+            <hr className="border-2" />
             <div className=" overflow-y-auto flex-grow">
-              <div className="flex flex-col">
-                <hr className="border-2" />
-                <div className="flex flex-col py-4 px-8">
+              <div className="flex flex-row">
+                <div className="flex flex-col py-4 px-8 w-2/5">
                   <p className="text-xl">Content</p>
                   {miniOptionKeys.map((key) => {
                     // @ts-ignore
@@ -122,8 +122,7 @@ const MiniOptionsDialog: FC<Props> = ({ onFullOptionsClick }) => {
                     );
                   })}
                 </div>
-                <hr className="border-2" />
-                <div className="flex flex-col py-4 px-8">
+                <div className="flex flex-col py-4 px-8  w-3/5">
                   <div className="flex text-lg justify-between items-center">
                     <div>The elephant is...</div>
                     <div>
@@ -157,7 +156,7 @@ const MiniOptionsDialog: FC<Props> = ({ onFullOptionsClick }) => {
                         return (
                           <div
                             key={text}
-                            className={`w-1/4 h-24 m-2 border grid min-w-[7rem] transform cursor-pointer place-items-center rounded-xl px-3 py-21 ${
+                            className={`w-1/4 h-32 m-2 border grid text-center min-w-[7rem] transform cursor-pointer place-items-center rounded-xl px-3 py-21 ${
                               i === 4
                                 ? "scale-105 text-elephant  border-elephant bg-pink text-2xl"
                                 : "border-pink bg-elephant text-pink text-xl"
@@ -172,7 +171,7 @@ const MiniOptionsDialog: FC<Props> = ({ onFullOptionsClick }) => {
                         return (
                           <div
                             key={text}
-                            className={`w-1/4 h-24 m-2 border grid min-w-[7rem] transform cursor-pointer place-items-center rounded-xl px-3 py-21 ${
+                            className={`w-1/4 h-32 m-2 border grid text-center min-w-[7rem] transform cursor-pointer place-items-center rounded-xl px-3 py-21 ${
                               i === 4
                                 ? "scale-105 text-elephant  border-elephant bg-pink text-2xl"
                                 : "border-pink bg-elephant text-pink text-xl"

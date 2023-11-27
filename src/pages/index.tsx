@@ -32,7 +32,7 @@ import { TextWithLineBreaks } from "@/components/TextWithLineBreaks";
 import { fitText } from "@/utils/fitText";
 import { useAudioAnalyser } from "@/hooks/use-audio-analyser";
 import TranscriptDialog from "@/components/TranscriptDialog";
-import MiniOptionsDialog from "@/components/MiniOptionsDialog";
+import MiniConfigDialog from "@/components/MiniConfigDialog";
 
 export default function Home() {
   const [elephantMessages, setElephantMessages] = useState<ElephantMessage[]>(
@@ -455,12 +455,11 @@ export default function Home() {
           open={fullOptionsOpen}
           onCloseDialog={() => setFullOptionsOpen(false)}
         />
-        <MiniOptionsDialog
+        <MiniConfigDialog
           onFullOptionsClick={() => {
             setFullOptionsOpen(true);
           }}
         />
-        <TranscriptDialog fullTranscript={fullTranscript} />
 
         <ReactionsBoard
           isDragging={isDragging}

@@ -166,6 +166,7 @@ export default function Test() {
             </p>
             <button
               className="px-4 border rounded-md"
+              disabled={running}
               onClick={() => {
                 setRunning(true);
 
