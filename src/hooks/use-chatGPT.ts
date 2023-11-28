@@ -23,14 +23,13 @@ export const useChatGPT = () => {
   const imagesResponses = useRef<PreviousImageData[]>([]);
   const elephantsResponses = useRef<PreviousElephantData[]>([]);
 
-  const [lastCahracter, setLastCharacter] = useState("");
+  const lastCharacter = useRef<string>();
 
   const { config } = useConfig();
 
   const sendUserMessage = async (type: AnalysisType, transcript: string) => {
     const { model, temperature } = config[type];
     let selectedCharacter = "";
-
     console.log("→ SENDING PROMPT:", {
       type,
       model: model.value,
@@ -53,7 +52,7 @@ export const useChatGPT = () => {
       const charcacterList = character.value.split(",");
       selectedCharacter =
         charcacterList[Math.floor(Math.random() * charcacterList.length)];
-      setLastCharacter(selectedCharacter);
+      lastCharacter.current = selectedCharacter;
 
       introPrompt = value.replace("{character}", selectedCharacter);
       previousResponses = characterCommentResponses.current;
@@ -163,11 +162,11 @@ export const useChatGPT = () => {
           const CharacterComment: PreviousCharacterCommentData = {
             text: characterComments[0].text,
             emojis: characterComments[0].emojis,
-            type: lastCahracter as CharacterType,
+            type: lastCharacter.current as CharacterType,
           };
 
           characterCommentResponses.current.push(CharacterComment);
-          return characterComments;
+          return [CharacterComment];
         } else {
           return [];
         }
