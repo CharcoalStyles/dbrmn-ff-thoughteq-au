@@ -3,31 +3,86 @@ import React, { FC, useEffect, useRef, useState } from "react";
 import { saveConfigToStorage } from "@/configContext/configUtils";
 import ConfigIcon from "../../public/elephant/silhouette-cog.svg";
 import Image from "next/image";
-import { Config } from "@/types";
+import { AnalysisType, Config, PostItBoardItem, PostitType } from "@/types";
 import { useConfig } from "@/configContext/ConfigState";
 import {
   configCopy,
+  defaultConfigValues,
   elephantFeelings,
   elephantProfessions,
+  sampleTranscript,
 } from "@/data/defaultConfig";
+import { useChatGPT } from "@/hooks/use-chatGPT";
+import PostIt from "./PostIt";
 
+type samplePostIt = {
+  message: string;
+  profession: string;
+  feeling: string;
+};
 interface Props {
+  initConfig: Config;
   onFullOptionsClick: () => void;
 }
 
-const debounce = (func: () => void, wait: number) => {
-  let timeout: ReturnType<typeof setTimeout>;
-  return () => {
-    clearTimeout(timeout);
-    timeout = setTimeout(() => {
-      func();
-    }, wait);
-  };
-};
-
-const MiniOptionsDialog: FC<Props> = ({ onFullOptionsClick }) => {
+const MiniOptionsDialog: FC<Props> = ({ initConfig, onFullOptionsClick }) => {
   const dialogRef = useRef<HTMLDialogElement>(null);
   const { config, updateConfig } = useConfig();
+  const { sendUserMessage } = useChatGPT();
+  const [generating, setGenerating] = useState(false);
+  const [postIt, setPostIt] = useState<samplePostIt>();
+
+  const [boardTitle, setBoardTitle] = useState<string>("");
+  const [openAiKey, setOpenAiKey] = useState<string>("");
+  const [openAiOrganisation, setOpenAiOrganisation] = useState<string>("");
+
+  useEffect(() => {
+    setBoardTitle(initConfig.main.boardTitle.value);
+    setOpenAiKey(initConfig.main.openAiKey.value);
+    setOpenAiOrganisation(initConfig.main.openAiOrganisation.value);
+  }, [initConfig]);
+
+  useEffect(() => {
+    if (
+      boardTitle !== config.main.boardTitle.value &&
+      boardTitle !== defaultConfigValues.main.boardTitle.value
+    ) {
+      updateConfig({
+        category: "main",
+        type: "SET_CONFIG_VALUE",
+        key: "boardTitle",
+        value: boardTitle,
+      });
+    }
+  }, [boardTitle]);
+
+  useEffect(() => {
+    if (
+      openAiKey !== config.main.openAiKey.value &&
+      openAiKey !== defaultConfigValues.main.openAiKey.value
+    ) {
+      updateConfig({
+        category: "main",
+        type: "SET_CONFIG_VALUE",
+        key: "openAiKey",
+        value: openAiKey,
+      });
+    }
+  }, [openAiKey]);
+
+  useEffect(() => {
+    if (
+      openAiOrganisation !== config.main.openAiOrganisation.value &&
+      openAiOrganisation !== defaultConfigValues.main.openAiOrganisation.value
+    ) {
+      updateConfig({
+        category: "main",
+        type: "SET_CONFIG_VALUE",
+        key: "openAiOrganisation",
+        value: openAiOrganisation,
+      });
+    }
+  }, [openAiOrganisation]);
 
   const openDialog = () => {
     if (dialogRef.current) {
@@ -94,16 +149,9 @@ const MiniOptionsDialog: FC<Props> = ({ onFullOptionsClick }) => {
                   <input
                     type="text"
                     className="w-full bg-pink border-0 py-1 px-2 rounded-md text-elephant"
-                    value={config.main.boardTitle.value}
+                    value={boardTitle}
                     onChange={({ target: { value } }) => {
-                      debounce(() => {
-                        updateConfig({
-                          category: "main",
-                          type: "SET_CONFIG_VALUE",
-                          key: "boardTitle",
-                          value: value,
-                        });
-                      }, 500);
+                      setBoardTitle(value);
                     }}
                   />
                 </label>
@@ -202,6 +250,49 @@ const MiniOptionsDialog: FC<Props> = ({ onFullOptionsClick }) => {
                               key: elephantFeels ? "feeling" : "profession",
                               value: i.toString(),
                             });
+
+                            if (!generating) {
+                              setGenerating(true);
+                              const feeling =
+                                elephantFeelings[
+                                  Number.parseInt(
+                                    config.personality.feeling.value
+                                  )
+                                ];
+                              const profession =
+                                elephantProfessions[
+                                  Number.parseInt(
+                                    config.personality.profession.value
+                                  )
+                                ];
+
+                              const postit: samplePostIt = {
+                                feeling: elephantFeels ? text : feeling.text,
+                                profession: elephantFeels
+                                  ? profession.text
+                                  : text,
+                                message: "",
+                              };
+
+                              sendUserMessage(
+                                AnalysisType.Elephant,
+                                sampleTranscript,
+                                {
+                                  feeling: postit.feeling,
+                                  profession: postit.profession,
+                                }
+                              ).then((resposne) => {
+                                if (resposne !== undefined) {
+                                  const data = resposne[0];
+                                  if (data.responseType === "Elephant") {
+                                    const { text } = data;
+                                    postit.message = `${text}`;
+                                    setPostIt(postit);
+                                    setGenerating(false);
+                                  }
+                                }
+                              });
+                            }
                           }}
                           className={`w-1/4 h-32 m-2 border grid text-center min-w-[7rem] transform cursor-pointer place-items-center rounded-xl px-3 py-21 ${
                             i === targetValue
@@ -214,6 +305,53 @@ const MiniOptionsDialog: FC<Props> = ({ onFullOptionsClick }) => {
                       );
                     })}
                   </div>
+                  <div className="pt-2">
+                    <p className="text-xl">Sample Comment</p>
+                    {generating && <p>Generating</p>}
+                    {postIt && !generating && (
+                      <div className="w-full flex flex-row justify-between">
+                        <div className="w-1/3 pr-4 pt-2">
+                          <p>
+                            The Elephant is {postIt.profession} who feels{" "}
+                            {postIt.feeling}. They are commenting on a debate
+                            about AI in design.
+                          </p>
+                        </div>
+                        <div className="w-1/2 flex">
+                          <div className="w-1/2">
+                            <PostIt
+                              postIt={{
+                                pos: { left: "0", top: "0" },
+                                contentType: "Elephant",
+                                itemIndex: 0,
+                                text: postIt.message,
+                                postitType: "Elephant",
+                              }}
+                              handleDragStart={() => {}}
+                              setIsDragging={() => {}}
+                              noDrag
+                              noPosition
+                            />
+                          </div>
+                          <div className="w-1/2">
+                            <PostIt
+                              postIt={{
+                                pos: { left: "0", top: "0" },
+                                contentType: "Elephant",
+                                itemIndex: 0,
+                                text: postIt.message,
+                                postitType: "Elephant",
+                              }}
+                              handleDragStart={() => {}}
+                              setIsDragging={() => {}}
+                              noDrag
+                              noPosition
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
               <div className="flex flex-row">
@@ -224,34 +362,20 @@ const MiniOptionsDialog: FC<Props> = ({ onFullOptionsClick }) => {
                     <input
                       type="text"
                       className="w-full bg-pink border-0 py-1 px-2 rounded-md text-elephant"
-                      value={config.main.openAiKey.value}
+                      value={openAiKey}
                       onChange={({ target: { value } }) => {
-                        debounce(() => {
-                          updateConfig({
-                            category: "main",
-                            type: "SET_CONFIG_VALUE",
-                            key: "openAiKey",
-                            value: value,
-                          });
-                        }, 500);
+                        setOpenAiKey(value);
                       }}
                     />
                   </label>
                   <label>
-                    OpenAI Org:{" "}
+                    OpenAI Org (optional):{" "}
                     <input
                       type="text"
                       className="w-full bg-pink border-0 py-1 px-2 rounded-md text-elephant"
-                      value={config.main.openAiOrganisation.value}
+                      value={openAiOrganisation}
                       onChange={({ target: { value } }) => {
-                        debounce(() => {
-                          updateConfig({
-                            category: "main",
-                            type: "SET_CONFIG_VALUE",
-                            key: "openAiOrganisation",
-                            value: value,
-                          });
-                        }, 500);
+                        setOpenAiOrganisation(value);
                       }}
                     />
                   </label>

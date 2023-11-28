@@ -31,7 +31,6 @@ import { formatMultipleConfigValue } from "@/configContext/configUtils";
 import { TextWithLineBreaks } from "@/components/TextWithLineBreaks";
 import { fitText } from "@/utils/fitText";
 import { useAudioAnalyser } from "@/hooks/use-audio-analyser";
-import TranscriptDialog from "@/components/TranscriptDialog";
 import MiniConfigDialog from "@/components/MiniConfigDialog";
 
 export default function Home() {
@@ -456,6 +455,7 @@ export default function Home() {
           onCloseDialog={() => setFullOptionsOpen(false)}
         />
         <MiniConfigDialog
+          initConfig={config}
           onFullOptionsClick={() => {
             setFullOptionsOpen(true);
           }}

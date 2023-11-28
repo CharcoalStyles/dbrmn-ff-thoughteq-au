@@ -8,6 +8,8 @@ interface PostItProps {
   setIsDragging: (isDragging: boolean) => void;
   postIt: PostItBoardItem;
   more?: string;
+  noDrag?: boolean;
+  noPosition?: boolean;
 }
 
 const PostIt: FC<PostItProps> = ({
@@ -15,6 +17,8 @@ const PostIt: FC<PostItProps> = ({
   setIsDragging,
   postIt,
   more,
+  noDrag,
+  noPosition,
 }) => {
   const ref = createRef<HTMLDivElement>();
 
@@ -64,6 +68,7 @@ const PostIt: FC<PostItProps> = ({
 
   return (
     <Draggable
+      disabled={noDrag}
       nodeRef={ref}
       onStart={(_, data) => handleDragStart(data.node)}
       onStop={() => setIsDragging(false)}
@@ -71,7 +76,7 @@ const PostIt: FC<PostItProps> = ({
       <div
         ref={ref}
         style={{
-          ...postIt.pos,
+          ...(noPosition ? {} : postIt.pos),
           zIndex: postIt.itemIndex ?? 0,
         }}
         className="absolute pointer-events-auto "

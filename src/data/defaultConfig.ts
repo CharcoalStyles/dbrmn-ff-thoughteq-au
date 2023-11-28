@@ -4,6 +4,9 @@ import { imageLibrary } from "../data/data";
 export const elephantUserBio =
   "You are The Elephant, a smart team member that remembers everything and are ready to give your opinion. You are {profession} and today you feel {feeling}. Your job and feelings heavily colour your world view. Using your knowledge, experience and wit, you will:";
 
+export const sampleTranscript =
+  "Hi, I'm Alice, and I'm a graphic designer. I use AI generation tools to create logos, posters, flyers, and other visual materials for my clients. I think these tools are amazing and they save me a lot of time and effort. Hi, I'm Bob, and I'm an engineer. I don't use AI generation tools for design. I think they are overrated and they lack human creativity and originality. Well, Bob, you're missing out on a lot of benefits that AI generation tools can offer. For example, you can generate thousands of variations of designs in seconds, without having to sketch or paint them by hand. You can also get feedback from users or customers on how they like your designs, and improve them accordingly. That sounds nice, but it also sounds like you're losing control over your designs. How do you know that the AI-generated designs are not plagiarizing or infringing on someone else's intellectual property? How do you ensure that the designs are ethical and socially responsible? How do you express your own vision and style through these tools? Those are valid concerns, Bob. But I think they can be addressed with proper guidance and supervision from human designers. The AI-generated designs are not perfect, but they are not plagiarizing either. They are based on existing data and patterns that the AI learns from, but they also have some randomness and variation that make them unique.";
+
 export const configCopy = {
   elephant: {
     title: "Elephants",
@@ -76,7 +79,7 @@ export const elephantFeelings = [
       "like you will pretend you came up with everyone elses ideas because you have experienced the exploitation of loopholes and corrupt systems for personal gain. This has motivated you to utilise similar tactics to achieve your own sinister goals.",
   },
   {
-    text: "annoyed it didn’t buy bitcoin 10 years ago",
+    text: "annoyed it didn't buy bitcoin 10 years ago",
     prompt:
       "annoyed you didn't buy bitcoin 10 years ago because you experience satisfaction by advancing your own interests, even if it means causing harm to others in the process.",
   },
@@ -166,7 +169,7 @@ export const defaultConfigValues: Config = {
       title: "Intro prompt",
       key: "introPrompt",
       value: `
-Now, look at the transcript and using your knowledge write a single funny or insightful line that comments on the situation, context or some detail you find in the transcript. This line/comment can be dark and harsh but should at the same time be very typical for the character. Also, as a separate value, provide 3 emojis that suits your line. Try not to give an answer too similar to any of your previous answers and don't use the same emojis (see your previous answers provided at the end). Respond without any explanation in the following format:
+Now, look at the transcript and using your knowledge write a single funny or insightful line that comments on the situation, context or some detail you find in the transcript. This line/comment can be dark and harsh but should at the same time be very typical for the character. Also, as a separate value, provide 3 emojis that suits your comment. Try not to give an answer too similar to any of your previous answers and don't use the same emojis (see your previous answers provided at the end). Respond without any explanation in the following format:
 
 [{
   "responseType": "Character",

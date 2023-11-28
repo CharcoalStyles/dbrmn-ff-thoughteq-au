@@ -176,7 +176,8 @@ export const useChatGPT = () => {
         }
         const characterComments = parseJSON(text) as CharacterCommentResponse[];
         if (!!characterComments) {
-          const CharacterComment: PreviousCharacterCommentData = {
+          const CharacterComment: CharacterCommentResponse = {
+            responseType: "Character",
             text: characterComments[0].text,
             emojis: characterComments[0].emojis,
             type: characterComments[0].responseType as CharacterType,
