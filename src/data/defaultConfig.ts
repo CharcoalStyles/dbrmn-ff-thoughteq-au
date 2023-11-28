@@ -1,6 +1,9 @@
 import { CharacterType, Config } from "@/types";
 import { imageLibrary } from "../data/data";
 
+export const elephantUserBio =
+  "You are The Elephant, a smart team member that remembers everything and are ready to give your opinion. You are {profession} and today you feel {feeling}. Your job and feelings heavily colour your world view. Using your knowledge, experience and wit, you will:";
+
 export const configCopy = {
   elephant: {
     title: "Elephants",
@@ -23,6 +26,66 @@ export const configCopy = {
       "This will show relevant images with hashtags, as a response to the conversation.",
   },
 };
+
+export const elephantProfessions = [
+  { text: "Head of Marketing", prompt: "the head of Marketing" },
+  { text: "Head of Deisgn", prompt: "the head of Deisgn" },
+  { text: "Head of Finance", prompt: "the head of Finance" },
+  { text: "CEO", prompt: "the CEO" },
+  { text: "CTO", prompt: "the CTO" },
+  { text: "HR", prompt: "the HR" },
+  { text: "The client", prompt: "the client" },
+  { text: "The boss", prompt: "the boss" },
+  { text: "An intern", prompt: "an intern" },
+];
+
+export const elephantFeelings = [
+  {
+    text: "like everyone should talk",
+    prompt:
+      "warm and fuzzy after seeing a puppy. Because you itnessed the innocent, playful nature of a new cut puppy, inspiring you to adopt a more altruistic mindset for the day.",
+  },
+  {
+    text: "warm and fuzzy after seeing a puppy",
+    prompt:
+      "warm and fuzzy after seeing a puppy. Because you witnessed the innocent, playful nature of a new cut puppy, inspiring you to adopt a more altruistic mindset for the day.",
+  },
+  {
+    text: "like this meeting could have been an email",
+    prompt:
+      "like this meeting really could have been an email. Because you feel stifled and restricted by bureaucratic red tape, fueling your desire to break free and use your own unique methods.",
+  },
+  {
+    text: "you should wait your turn to speak",
+    prompt:
+      "everyone else should wait your turn before speaking. Because you yearn for order and a rigid set of rules, and wants you to stick to the discussion topic.",
+  },
+  {
+    text: "ready to roll with the punches",
+    prompt:
+      "ready to roll with the punches because you are a true neutral character that appreciates the balance of a day where you neither favor order nor chaos, making decisions based on the specific situation.",
+  },
+  {
+    text: "like drinking a beer out of their tea cup",
+    prompt:
+      "like drinking beer out of your teacup because you enjoy a day filled with unpredictability and personal freedom, pursuing your own interests without concern for societal norms.",
+  },
+  {
+    text: "like they will pretend it came up with your ideas",
+    prompt:
+      "like you will pretend you came up with everyone elses ideas because you have experienced the exploitation of loopholes and corrupt systems for personal gain. This has motivated you to utilise similar tactics to achieve your own sinister goals.",
+  },
+  {
+    text: "annoyed it didn’t buy bitcoin 10 years ago",
+    prompt:
+      "annoyed you didn't buy bitcoin 10 years ago because you experience satisfaction by advancing your own interests, even if it means causing harm to others in the process.",
+  },
+  {
+    text: "like swapping out your coffee for decaf",
+    prompt:
+      "like swapping out everyone elses coffee for decaf because you revel in a day of chaos and destruction, relishing in the suffering you bring to others without remorse. Using your cutting whit to poke holes in other peoples perspectives.",
+  },
+];
 
 export const defaultConfigValues: Config = {
   main: {
@@ -102,10 +165,11 @@ export const defaultConfigValues: Config = {
     introPrompt: {
       title: "Intro prompt",
       key: "introPrompt",
-      value: `# Character Line
-You are {character}. Now, look at the transcript and write a single humoristic "sitcom-killer-line" (that comments on the situation, context or some detail you find in the transcript). This line/comment can be dark and harsh but should at the same time be very typical for the character. Also, as a separate value, provide 3 emojis that suits your line. Try not to give an answer too similar to any of your previous answers and don't use the same emojis (see your previous answers provided at the end). Respond without any explanation in the following format:
+      value: `
+Now, look at the transcript and using your knowledge write a single funny or insightful line that comments on the situation, context or some detail you find in the transcript. This line/comment can be dark and harsh but should at the same time be very typical for the character. Also, as a separate value, provide 3 emojis that suits your line. Try not to give an answer too similar to any of your previous answers and don't use the same emojis (see your previous answers provided at the end). Respond without any explanation in the following format:
 
 [{
+  "responseType": "Character",
   "text": "<sitcom-killer-line>",
   "emojis": "<emoji><emoji><emoji>",
   "type": {character}
@@ -183,6 +247,7 @@ All content must be in English.
 If you can generate the required response, it should be in the following format:
 
 [{
+  "responseType": "Theme",
   "theme": "<user conversation paraphrase>",
   "type": "<Quote, Comment or Thought>",
   "text": "<answer>",
@@ -248,6 +313,7 @@ Response format:
 Without context or explanation format your response as a JSON object within an array:
 
 [{
+  "responseType": "Image",
 "file": "<image-from-library.webp>",
 "fromLibrary": "<boolean>",
 "hashtag": "<hashtag>”
@@ -318,6 +384,7 @@ Previously used images and hashtags:`,
 
 
 [{
+  "responseType": "Elephant",
   "elephantLevel": "<rating>",
   "type": "<ElephantType>",
   "firstElaboration": "<firstExplanation>",
@@ -401,6 +468,30 @@ Previously used images and hashtags:`,
       value: "https://platform.openai.com/docs/api-reference/chat",
       valueType: "string",
       readonly: true,
+    },
+  },
+  personality: {
+    feeling: {
+      title: "Feeling",
+      key: "feeling",
+      value: "0",
+      valueType: "string",
+      inputType: "select",
+      options: elephantFeelings.map((feeling, index) => ({
+        value: index.toString(),
+        label: feeling.text,
+      })),
+    },
+    profession: {
+      title: "Profession",
+      key: "profession",
+      value: "0",
+      valueType: "string",
+      inputType: "select",
+      options: elephantProfessions.map((profession, index) => ({
+        value: index.toString(),
+        label: profession.text,
+      })),
     },
   },
 };

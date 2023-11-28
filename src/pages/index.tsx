@@ -201,6 +201,7 @@ export default function Home() {
       .join(" ");
     sendUserMessage(type, lastTranscript).then((res) => {
       pendingResponse.current = false;
+      //@ts-ignore
       if (res) onResponse(res);
     });
   };
@@ -455,11 +456,10 @@ export default function Home() {
           onCloseDialog={() => setFullOptionsOpen(false)}
         />
         <MiniConfigDialog
-          onFullConfigClick={() => {
+          onFullOptionsClick={() => {
             setFullOptionsOpen(true);
           }}
         />
-        <TranscriptDialog fullTranscript={fullTranscript} />
 
         <ReactionsBoard
           isDragging={isDragging}
