@@ -16,7 +16,8 @@ import { useChatGPT } from "@/hooks/use-chatGPT";
 import PostIt from "./PostIt";
 
 type samplePostIt = {
-  message: string;
+  elephantMessage?: string;
+  commnetMessage?: string;
   profession: string;
   feeling: string;
 };
@@ -157,6 +158,38 @@ const MiniOptionsDialog: FC<Props> = ({ initConfig, onFullOptionsClick }) => {
                 </label>
               </div>
               <div className="flex flex-row">
+                <div className="flex flex-col px-8 w-full">
+                  <div className="flex flex-row w-full">
+                    <div className="w-1/2 pr-4">
+                      <label>
+                        OpenAI Key:
+                        <input
+                          type="text"
+                          className="w-full bg-pink border-0 py-1 px-2 rounded-md text-elephant"
+                          value={openAiKey}
+                          onChange={({ target: { value } }) => {
+                            setOpenAiKey(value);
+                          }}
+                        />
+                      </label>
+                    </div>
+                    <div className="w-1/2">
+                      <label>
+                        OpenAI Org (optional):
+                        <input
+                          type="text"
+                          className="w-full bg-pink border-0 py-1 px-2 rounded-md text-elephant"
+                          value={openAiOrganisation}
+                          onChange={({ target: { value } }) => {
+                            setOpenAiOrganisation(value);
+                          }}
+                        />
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="flex flex-row">
                 <div className="flex flex-col py-4 px-8 w-2/5">
                   <p className="text-xl">Content</p>
                   {miniOptionKeys.map((key) => {
@@ -271,26 +304,43 @@ const MiniOptionsDialog: FC<Props> = ({ initConfig, onFullOptionsClick }) => {
                                 profession: elephantFeels
                                   ? profession.text
                                   : text,
-                                message: "",
                               };
 
-                              sendUserMessage(
-                                AnalysisType.Elephant,
-                                sampleTranscript,
-                                {
-                                  feeling: postit.feeling,
-                                  profession: postit.profession,
-                                }
-                              ).then((resposne) => {
-                                if (resposne !== undefined) {
-                                  const data = resposne[0];
+                              Promise.all([
+                                sendUserMessage(
+                                  AnalysisType.Elephant,
+                                  sampleTranscript,
+                                  {
+                                    feeling: postit.feeling,
+                                    profession: postit.profession,
+                                  }
+                                ),
+
+                                sendUserMessage(
+                                  AnalysisType.CharacterComment,
+                                  sampleTranscript,
+                                  {
+                                    feeling: postit.feeling,
+                                    profession: postit.profession,
+                                  }
+                                ),
+                              ]).then(([ele, cc]) => {
+                                if (ele !== undefined) {
+                                  const data = ele[0];
                                   if (data.responseType === "Elephant") {
                                     const { text } = data;
-                                    postit.message = `${text}`;
-                                    setPostIt(postit);
-                                    setGenerating(false);
+                                    postit.elephantMessage = text;
                                   }
                                 }
+                                if (cc !== undefined) {
+                                  const data = cc[0];
+                                  if (data.responseType === "Character") {
+                                    const { text } = data;
+                                    postit.commnetMessage = text;
+                                  }
+                                }
+                                setPostIt(postit);
+                                setGenerating(false);
                               });
                             }
                           }}
@@ -317,68 +367,45 @@ const MiniOptionsDialog: FC<Props> = ({ initConfig, onFullOptionsClick }) => {
                             about AI in design.
                           </p>
                         </div>
-                        <div className="w-1/2 flex">
-                          <div className="w-1/2">
-                            <PostIt
-                              postIt={{
-                                pos: { left: "0", top: "0" },
-                                contentType: "Elephant",
-                                itemIndex: 0,
-                                text: postIt.message,
-                                postitType: "Elephant",
-                              }}
-                              handleDragStart={() => {}}
-                              setIsDragging={() => {}}
-                              noDrag
-                              noPosition
-                            />
+                        <div className="w-1/2 flex flex-grow content-end">
+                          <div>
+                            {postIt.elephantMessage && (
+                              <PostIt
+                                postIt={{
+                                  pos: { left: "0", top: "0" },
+                                  contentType: "Elephant",
+                                  itemIndex: 0,
+                                  text: postIt.elephantMessage,
+                                  postitType: "Elephant",
+                                }}
+                                handleDragStart={() => {}}
+                                setIsDragging={() => {}}
+                                noDrag
+                                noPosition
+                              />
+                            )}
                           </div>
-                          <div className="w-1/2">
-                            <PostIt
-                              postIt={{
-                                pos: { left: "0", top: "0" },
-                                contentType: "Elephant",
-                                itemIndex: 0,
-                                text: postIt.message,
-                                postitType: "Elephant",
-                              }}
-                              handleDragStart={() => {}}
-                              setIsDragging={() => {}}
-                              noDrag
-                              noPosition
-                            />
+                          <div>
+                            {postIt.commnetMessage && (
+                              <PostIt
+                                postIt={{
+                                  pos: { left: "0", top: "0" },
+                                  contentType: "Comment",
+                                  itemIndex: 0,
+                                  text: postIt.commnetMessage,
+                                  postitType: "CharacterComment",
+                                }}
+                                handleDragStart={() => {}}
+                                setIsDragging={() => {}}
+                                noDrag
+                                noPosition
+                              />
+                            )}
                           </div>
                         </div>
                       </div>
                     )}
                   </div>
-                </div>
-              </div>
-              <div className="flex flex-row">
-                <div className="flex flex-col py-4 px-8 w-2/5">
-                  <p className="text-xl">OpenAI Config</p>
-                  <label>
-                    OpenAI Key:{" "}
-                    <input
-                      type="text"
-                      className="w-full bg-pink border-0 py-1 px-2 rounded-md text-elephant"
-                      value={openAiKey}
-                      onChange={({ target: { value } }) => {
-                        setOpenAiKey(value);
-                      }}
-                    />
-                  </label>
-                  <label>
-                    OpenAI Org (optional):{" "}
-                    <input
-                      type="text"
-                      className="w-full bg-pink border-0 py-1 px-2 rounded-md text-elephant"
-                      value={openAiOrganisation}
-                      onChange={({ target: { value } }) => {
-                        setOpenAiOrganisation(value);
-                      }}
-                    />
-                  </label>
                 </div>
               </div>
             </div>

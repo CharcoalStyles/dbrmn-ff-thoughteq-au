@@ -79,7 +79,7 @@ const PostIt: FC<PostItProps> = ({
           ...(noPosition ? {} : postIt.pos),
           zIndex: postIt.itemIndex ?? 0,
         }}
-        className="absolute pointer-events-auto "
+        className={`pointer-events-auto ${noPosition ? "" : "absolute"}`}
       >
         <div
           ref={containerRef}

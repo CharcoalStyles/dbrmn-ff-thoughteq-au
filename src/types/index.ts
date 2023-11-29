@@ -119,6 +119,12 @@ export type Config = {
     feeling: ConfigValue;
   };
 };
+
+interface TitlePromptCV {
+  title: ConfigValue;
+  prompt: ConfigValue;
+}
+
 export interface PromptType {
   role: string;
   content: string;
